@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-
     public static final String DRIVER = "org.sqlite.JDBC";
     public static final String DB_URL = "jdbc:sqlite:application.db";
     public UsersDatabaseTable usersTable;
+    public RegisteredUsersDatabaseTable registeredUsersTable;
 
     private Connection databaseConnection;
 
@@ -32,10 +32,11 @@ public class DatabaseConnection {
 
 	public void createTables()  {
 		try {
-			usersTable = new UsersDatabaseTable(databaseConnection);
-			usersTable.createUsersTable();
+			registeredUsersTable = new RegisteredUsersDatabaseTable(databaseConnection);
+			registeredUsersTable.createRegisteredUsersTable();
+			
 		} catch	(SQLException e) {
-	    	System.err.println("Cannot creat UserDatabaseTable");
+	    	System.err.println("Cannot create tables");
 	    	e.printStackTrace();
 		}
 	}
