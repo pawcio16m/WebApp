@@ -26,13 +26,11 @@ public class DatabaseConnection {
 	    	System.err.println("Connection to database failed");
 	    	e.printStackTrace();
 	    }
-
-		createTables();
 	}
 
 	public void createTables()  {
 		try {
-			registeredUsersTable = new RegisteredUsersDatabaseTable(databaseConnection);
+			registeredUsersTable = new RegisteredUsersDatabaseTable();
 			registeredUsersTable.createRegisteredUsersTable();
 			
 		} catch	(SQLException e) {

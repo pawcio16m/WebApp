@@ -1,6 +1,7 @@
 package webApp.database;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +12,9 @@ import java.util.List;
 import webApp.backend.User;
 
 public class UsersDatabaseTable {
+    private final Connection databaseConnection = DriverManager.getConnection(DatabaseConnection.DB_URL);
+    
     private Statement statemant;
-    private Connection databaseConnection;
 	String createUsersTable = "CREATE TABLE IF NOT EXISTS users ("
 		+ "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
 		+ "firstName text NOT NULL,"
@@ -22,8 +24,7 @@ public class UsersDatabaseTable {
 		+ "mailAddress text NOT NULL UNIQUE,"
 		+ "city text NOT NULL)";
 
-	UsersDatabaseTable(Connection p_databaseConnection) throws SQLException {
-		databaseConnection = p_databaseConnection;
+	UsersDatabaseTable() throws SQLException {
 		statemant = databaseConnection.createStatement();
 	}
 	

@@ -1,7 +1,6 @@
 package webAppTest.database;
 
 import static org.junit.Assert.*;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +23,7 @@ public class RegisteredUsersDatabaseTableTestSuite {
 	public void setUp() throws Exception {
 		databaseConnection = new DatabaseConnection();
 		try {
-			sut = new RegisteredUsersDatabaseTable(DriverManager.getConnection(DatabaseConnection.DB_URL));
+			sut = new RegisteredUsersDatabaseTable();
 			sut.createRegisteredUsersTable();
 		}
 		catch (SQLException e) {
