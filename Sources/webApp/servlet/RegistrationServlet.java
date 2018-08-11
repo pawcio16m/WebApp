@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import webApp.database.DatabaseConnection;
 
-@WebServlet("/RegistrationServlet")
+@WebServlet("/html/RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DatabaseConnection databaseConnection;
