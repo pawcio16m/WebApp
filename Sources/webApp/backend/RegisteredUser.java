@@ -14,6 +14,11 @@ public class RegisteredUser {
 		password = p_password;
 	}
 	
+	public boolean isPasswordCorrect(String p_passworToValidate)
+	{
+		return password.equals(p_passworToValidate);
+	}
+	
 	@Override
 	public String toString() {
 		return "["+userId+"] "+login+" - "+emailAddress;
