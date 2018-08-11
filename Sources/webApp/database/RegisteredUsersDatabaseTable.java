@@ -18,6 +18,7 @@ public class RegisteredUsersDatabaseTable {
 		+ "mailAddress text NOT NULL UNIQUE,"
 		+ "password text NOT NULL)";
 	private final String deleteRegisteredUsersTable = "DROP TABLE "+tableName;
+	private final String tableHeader = "[UserId] | login\t |  emailAddress\n";
 	private Statement statemant;
 	private final Connection databaseConnection = DriverManager.getConnection(DatabaseConnection.DB_URL);
 
@@ -74,7 +75,7 @@ public class RegisteredUsersDatabaseTable {
 	@Override
     public String toString()
 	{
-		String result = new String("[UserId] | login\t |  emailAddress\n");
+		String result = tableHeader;
 		for (RegisteredUser registeredUser : getUsers())
 		{
 			result = result.concat(registeredUser.toString()+"\n");
