@@ -28,13 +28,22 @@ public class DatabaseConnection {
 	    }
 	}
 
-	public void createTables()  {
+	public void createAllTables()  {
 		try {
 			registeredUsersTable = new RegisteredUsersDatabaseTable();
-			registeredUsersTable.createRegisteredUsersTable();
 			
 		} catch	(SQLException e) {
 	    	System.err.println("Cannot create tables");
+	    	e.printStackTrace();
+		}
+	}
+	
+	public void deleteAllTables()  {
+		try {
+			registeredUsersTable.deleteTable();
+			
+		} catch	(SQLException e) {
+	    	System.err.println("Cannot delete tables");
 	    	e.printStackTrace();
 		}
 	}

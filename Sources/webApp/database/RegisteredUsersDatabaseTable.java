@@ -24,15 +24,11 @@ public class RegisteredUsersDatabaseTable {
 
 	public RegisteredUsersDatabaseTable() throws SQLException {
 		statemant = databaseConnection.createStatement();
+		createRegisteredUsersTable();
 	}
 		
-	public void createRegisteredUsersTable() {
-		try {
-			statemant.execute(createRegisteredUsersTable);
-		} catch (SQLException e) {
-			System.err.println("Creating Registered Users table failed");
-			e.printStackTrace();
-		}
+	private void createRegisteredUsersTable() throws SQLException {
+		statemant.execute(createRegisteredUsersTable);
 	}
 
 	public boolean insertUser(String p_login, String p_emailAddress, String p_password) {
@@ -70,14 +66,9 @@ public class RegisteredUsersDatabaseTable {
 		return registeredUsers;
 	}
 	
-	public void deleteTable()
+	public void deleteTable() throws SQLException
 	{
-		try {
-			statemant.execute(deleteRegisteredUsersTable);
-		} catch (SQLException e) {
-			System.err.println("Deleting Registered Users table failed");
-			e.printStackTrace();
-		}		
+		statemant.execute(deleteRegisteredUsersTable);
 	}
 		
 	@Override

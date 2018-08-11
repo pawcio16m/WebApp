@@ -24,7 +24,6 @@ public class RegisteredUsersDatabaseTableTestSuite {
 		databaseConnection = new DatabaseConnection();
 		try {
 			sut = new RegisteredUsersDatabaseTable();
-			sut.createRegisteredUsersTable();
 		}
 		catch (SQLException e) {
 			System.err.println("TestSuite cannot create connection to database");			
