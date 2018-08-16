@@ -1,10 +1,8 @@
 package webAppTest.backend;
 
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import webApp.backend.RegisteredUser;
 
 public class RegisteredUserTestSuite {

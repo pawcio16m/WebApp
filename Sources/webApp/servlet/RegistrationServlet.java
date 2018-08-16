@@ -2,27 +2,22 @@ package webApp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import webApp.database.DatabaseConnection;
-
-@WebServlet("/html/RegistrationServlet")
+@WebServlet("/jsp/RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private DatabaseConnection databaseConnection;
        
     public RegistrationServlet() {
-        super();        
-        databaseConnection = new DatabaseConnection();
+        super();    
     }
   
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-    	doPost(request, response); // TODO Auto-generated constructor stub }
+    	doPost(request, response);
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,12 +25,19 @@ public class RegistrationServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		String login = request.getParameter("login");
-		String emailAddress = request.getParameter("emailAddress");
+		String emailAddress = request.getParameter("email");
 		String password = request.getParameter("password").toString();
 		
-		if (databaseConnection.registeredUsersTable.insertUser(login, emailAddress, password)) {
-			out.println("You are sucessfully registered");
+		System.out.println("User["+login+"] "+emailAddress);
+		
+		if (WebApp.databaseConnection.registeredUsersTable.insertUser(login, emailAddress, password)) {
+			System.out.println("User["+login+"] added to database");
 		}
+		else
+		{
+			System.out.println("User["+login+"] not added to database");
+		}
+		response.sendRedirect("home.jsp");
 	}
 
 }
