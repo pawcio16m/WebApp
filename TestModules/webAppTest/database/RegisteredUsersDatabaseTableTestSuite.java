@@ -74,4 +74,21 @@ public class RegisteredUsersDatabaseTableTestSuite {
 		
 		assertEquals(registerdUserWithUpdatedPassword.toString(), sut.getRegisteredUser(LOGIN).toString());
 	}
+	
+	@Test
+	public void testRemoveRegisteredUser() {
+		int numberOfUsersBeforeDeletion = 2;
+		int numberOfUsersAfterDeletion = 1;
+		RegisteredUser userNotRegistered = null;
+		
+		sut.insertUser(LOGIN, EMAIL_ADDRESS, PASSWORD);
+		sut.insertUser("dummyLogin", "dummyMail", "dummyPassword");
+
+		assertEquals(numberOfUsersBeforeDeletion, sut.getUsers().size());
+		
+		sut.removeRegisteredUser(LOGIN);
+		
+		assertEquals(userNotRegistered, sut.getRegisteredUser(LOGIN));
+		assertEquals(numberOfUsersAfterDeletion, sut.getUsers().size());
+	}
 }

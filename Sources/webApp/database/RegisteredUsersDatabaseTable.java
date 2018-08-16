@@ -121,5 +121,19 @@ public class RegisteredUsersDatabaseTable {
 		}
 		return true;
 	}
+	
+	public boolean removeRegisteredUser(String p_login)
+	{
+		String removeRegisteredUser = "DELETE FROM "+tableName+" WHERE login = '"+p_login+"'";
+		try {
+			statemant.execute(removeRegisteredUser);
+		} catch (SQLException e) {
+			System.err.println("Removing user "+p_login+" from database failed.");
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
+	}
 
 }
