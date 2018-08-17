@@ -27,6 +27,7 @@ else {
 <form action="WebApp" method="post">
     <input type="submit" name="register" value="Sign Up" />
     <input type="submit" name="login" value="Sign In" />
+    <input type="submit" name="logout" value="Log out" />
 </form>
 </body>
 </html>

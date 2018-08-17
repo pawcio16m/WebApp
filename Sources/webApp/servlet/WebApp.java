@@ -1,6 +1,8 @@
 package webApp.servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,6 +38,10 @@ public class WebApp extends HttpServlet {
 		}
 		else if (request.getParameter("register") != null) {
 			response.sendRedirect("registration.jsp");	
+		}
+		else if (request.getParameter("logout") != null) {
+		    RequestDispatcher rd = request.getRequestDispatcher("/LogoutServlet");
+		    rd.forward(request, response);
 		}
 	}
 

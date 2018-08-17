@@ -16,6 +16,7 @@ import webApp.backend.RegisteredUser;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private int SESSION_DURATION = 60*60; //1h
+	public static String SESSION_ATRIBUTE = "login";
 	
        
     public LoginServlet() {
@@ -44,12 +45,12 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		if (isPasswordCorrect) {
-			System.out.println(login+" is sucessfully logged int");
+			System.out.println(login+" is sucessfully logged in.");
 			HttpSession session = request.getSession();
-			session.setAttribute("login", login);
+			session.setAttribute(SESSION_ATRIBUTE, login);
 			session.setMaxInactiveInterval(SESSION_DURATION);
 
-			Cookie loginCookie = new Cookie("login", login);
+			Cookie loginCookie = new Cookie(SESSION_ATRIBUTE, login);
 			loginCookie.setMaxAge(SESSION_DURATION);
 			
 			response.addCookie(loginCookie);
