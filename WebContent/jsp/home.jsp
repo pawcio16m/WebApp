@@ -6,28 +6,7 @@
 <title>Home Page</title>
 </head>
 <body>
-<%
-String user = null;
-if	(session.getAttribute("login") == null){
-	out.println("You're not logged in.");
-}
-else {
-	user = (String) session.getAttribute("login");
-	String login = null;
-	Cookie[] cookies = request.getCookies();
-	if (cookies !=null){
-		for (Cookie cookie : cookies){
-			if (cookie.getName().equals("login")) login = cookie.getValue();
-		}
-		out.println("Hello "+login+", you're logged in");
-	}	
-}
-%>
- <center><h2>Activities Organizer</h2></center>
-<form action="WebApp" method="post">
-    <input type="submit" name="register" value="Sign Up" />
-    <input type="submit" name="login" value="Sign In" />
-    <input type="submit" name="logout" value="Log out" />
-</form>
+<h2>Activities Organizer</h2>
+<jsp:include page="sessionCtrl.jsp" />
 </body>
 </html>
