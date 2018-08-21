@@ -1,7 +1,6 @@
 package webApp.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -14,21 +13,25 @@ import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
 
 @WebServlet("/jsp/LoginServlet")
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet
+{
 	private static final long serialVersionUID = 1L;
 	private int SESSION_DURATION = 60*60; //1h
 	public static String SESSION_ATRIBUTE = "login";
 	private String ADMIN_LOGIN = "pawcio16m";	
        
-    public LoginServlet() {
+    public LoginServlet()
+    {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		response.setContentType("text/html;charset=UTF-8");
 		
 		DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -38,22 +41,25 @@ public class LoginServlet extends HttpServlet {
 
 		boolean isPasswordCorrect = false;
 		
-		try {
+		try
+		{
 			isPasswordCorrect = databaseConnection.registeredUsersTable.getRegisteredUser(login).isPasswordCorrect(password);
 		}
-		catch (NullPointerException e) {
+		catch (NullPointerException e)
+		{
 			e.printStackTrace();
 			isPasswordCorrect = false;			
 		}
 
-		if (isPasswordCorrect) {
+		if (isPasswordCorrect)
+		{
 			System.out.println(login+" is sucessfully logged in.");
 			
 			HttpSession session = request.getSession();
 			session.setAttribute(SESSION_ATRIBUTE, login);
 			session.setMaxInactiveInterval(SESSION_DURATION);
 			
-			if (login.equals(ADMIN_LOGIN))
+			if (login.equals(RegisteredUser.adminLogin))
 			{
 				System.out.println("Hello admin, you have expended functionality on this site.");
 			}

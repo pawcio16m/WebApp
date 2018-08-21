@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabaseConnection {
+public class DatabaseConnection
+{
     public static final String DRIVER = "org.sqlite.JDBC";
     public static final String DB_URL = "jdbc:sqlite:application.db";
     public UsersDatabaseTable usersTable;
@@ -12,47 +13,65 @@ public class DatabaseConnection {
 
     private static Connection databaseConnection;
 
-	public DatabaseConnection() {
-		try {
+	public DatabaseConnection()
+	{
+		try
+		{
 			Class.forName(DatabaseConnection.DRIVER);
-	    } catch (ClassNotFoundException e) {
-	    	System.err.println("JDBC driver not found");
+	    } 
+		catch (ClassNotFoundException e)
+		{
+	    	System.err.println("JDBC driver not found.");
 	        e.printStackTrace();
 	    }
 
-		try {
+		try
+		{
 			databaseConnection = DriverManager.getConnection(DB_URL);
-	    } catch (SQLException e) {
-	    	System.err.println("Connection to database failed");
+	    } 
+		catch (SQLException e) 
+		{
+	    	System.err.println("Connection to database failed.");
 	    	e.printStackTrace();
 	    }
 		createAllTables();
 	}
 
-	public void createAllTables()  {
-		try {
+	private void createAllTables()
+	{
+		try
+		{
 			registeredUsersTable = new RegisteredUsersDatabaseTable();
 			
-		} catch	(SQLException e) {
-	    	System.err.println("Cannot create tables");
+		}
+		catch	(SQLException e) 
+		{
+	    	System.err.println("Cannot create tables.");
 	    	e.printStackTrace();
 		}
 	}
 	
-	public void deleteAllTables()  {
-		try {
-			registeredUsersTable.deleteTable();
-			
-		} catch	(SQLException e) {
-	    	System.err.println("Cannot delete tables");
+	public void deleteAllTables() 
+	{
+		try
+		{
+			registeredUsersTable.deleteTable();			
+		} 
+		catch (SQLException e) 
+		{
+	    	System.err.println("Cannot delete tables.");
 	    	e.printStackTrace();
 		}
 	}
 	
-	public void closeConnection() {
-		try {
+	public void closeConnection()
+	{
+		try
+		{
 			databaseConnection.close();
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e)
+		{
 			System.err.println("Error when closing database connection");
 			e.printStackTrace();
 		}

@@ -9,7 +9,8 @@ import webApp.database.DatabaseConnection;
 import webApp.database.RegisteredUsersDatabaseTable;
 import webApp.backend.RegisteredUser;
 
-public class RegisteredUsersDatabaseTableTestSuite {
+public class RegisteredUsersDatabaseTableTestSuite
+{
 	private final int USER_ID = 1;
 	private final String LOGIN = "myLogin"; 
 	private final String EMAIL_ADDRESS = "myLogin@at.com"; 
@@ -24,38 +25,45 @@ public class RegisteredUsersDatabaseTableTestSuite {
 	private RegisteredUsersDatabaseTable sut; 
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws Exception
+	{
 		databaseConnection = new DatabaseConnection();
-		try {
+		try
+		{
 			sut = new RegisteredUsersDatabaseTable();
 		}
-		catch (SQLException e) {
+		catch (SQLException e) 
+		{
 			System.err.println("TestSuite cannot create connection to database");			
 		}
 	}
 	
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() throws Exception
+	{
 		sut.deleteTable();
 		databaseConnection.closeConnection();
 	}
 
 	@Test
-	public void testInsertUser() {
+	public void testInsertUser()
+	{
 		sut.insertUser(LOGIN, EMAIL_ADDRESS, PASSWORD);
 		
 		assertEquals(REGISTERED_USER.toString(), sut.getRegisteredUser(LOGIN).toString());
 	}
 
 	@Test
-	public void testGetRegisteredUser_shouldReturnNulWehnNotFoundInTable() {
+	public void testGetRegisteredUser_shouldReturnNulWehnNotFoundInTable()
+	{
 		RegisteredUser userNotRegistered = null;
 		
 		assertEquals(userNotRegistered, sut.getRegisteredUser(LOGIN));
 	}
 	
 	@Test
-	public void testGetUsers() {
+	public void testGetUsers()
+	{
 		int numberOfUsersBeforeInsertion = 0;
 		int numberOfUsersAfterInsertions = 2;
 		
@@ -68,7 +76,8 @@ public class RegisteredUsersDatabaseTableTestSuite {
 	}
 	
 	@Test
-	public void testUpdatePassword() {		
+	public void testUpdatePassword()
+	{		
 		String updatedPassword = "myUpdatedPassword"; 
 		RegisteredUser registerdUserWithUpdatedPassword = 
 			new RegisteredUser(USER_ID, LOGIN, EMAIL_ADDRESS, updatedPassword);
@@ -80,7 +89,8 @@ public class RegisteredUsersDatabaseTableTestSuite {
 	}
 	
 	@Test
-	public void testRemoveRegisteredUser() {
+	public void testRemoveRegisteredUser()
+	{
 		int numberOfUsersBeforeDeletion = 2;
 		int numberOfUsersAfterDeletion = 1;
 		RegisteredUser userNotRegistered = null;
@@ -97,7 +107,8 @@ public class RegisteredUsersDatabaseTableTestSuite {
 	}
 	
 	@Test
-	public void testRemoveAllRegisteredUsers() {
+	public void testRemoveAllRegisteredUsers()
+	{
 		int numberOfUsersBeforeDeletion = 2;
 		int numberOfUsersAfterDeletion = 1;
 		RegisteredUser userNotRegistered = null;
@@ -113,5 +124,4 @@ public class RegisteredUsersDatabaseTableTestSuite {
 		assertEquals(ADMIN_USER.toString(), sut.getRegisteredUser(RegisteredUser.adminLogin).toString());
 		assertEquals(numberOfUsersAfterDeletion, sut.getUsers().size());	
 	}
-
 }
