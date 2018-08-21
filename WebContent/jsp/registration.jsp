@@ -5,30 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Register</title>
-<script> 
-function validate()
-{ 
- var email = document.form.email.value;
- var username = document.form.username.value; 
- var password = document.form.password.value;
- 
- if (email == null || email == "" )
- { 
-	 alert("Email can't be blank"); 
-	 return false; 
- }
- else if (login == null || login == "")
- { 
-	 alert("login can't be blank"); 
-	 return false; 
- }
- else if(password.length < 6)
- { 
-	 alert("Password must be at least 6 characters long."); 
-	 return false; 
- } 
- } 
-</script> 
 </head>
 <body>
 <h2>Registration Form</h2>
@@ -47,8 +23,8 @@ function validate()
  		<td><input type="password" name="password" /></td>
  	</tr>
  	<tr>
- 		<td><%=(request.getAttribute("errMessage") == null) ? ""
- 			: request.getAttribute("errMessage")%></td>
+ 		<td><p style="color:red;"><%=(request.getAttribute("errMessage") == null) ? ""
+ 			: request.getAttribute("errMessage")%></p></td>
  	</tr>
  	<tr>
  		<td><input type="submit" value="Sign Up"></input>

@@ -8,5 +8,7 @@
 <body>
 <h2>Activities Organizer</h2>
 <jsp:include page="sessionCtrl.jsp" />
+<%=(request.getAttribute("registeredUserTable") == null) ? ""
+	: request.getAttribute("registeredUserTable")%>
 </body>
 </html>

@@ -15,6 +15,10 @@ public class RegisteredUsersDatabaseTableTestSuite {
 	private final String EMAIL_ADDRESS = "myLogin@at.com"; 
 	private final String PASSWORD = "myPassword"; 
 	private final RegisteredUser REGISTERED_USER = new RegisteredUser(USER_ID, LOGIN, EMAIL_ADDRESS, PASSWORD);
+	private final int ADMIN_ID = 2;
+	private final String ADMIN_ADDRESS = "admin@admin.com"; 
+	private final String ADMIN_PASSWORD = "admin1234"; 		
+	private final RegisteredUser ADMIN_USER = new RegisteredUser(ADMIN_ID, RegisteredUser.adminLogin, ADMIN_ADDRESS, ADMIN_PASSWORD);
 	
 	private DatabaseConnection databaseConnection;
 	private RegisteredUsersDatabaseTable sut; 
@@ -58,7 +62,7 @@ public class RegisteredUsersDatabaseTableTestSuite {
 		assertEquals(numberOfUsersBeforeInsertion, sut.getUsers().size());
 		
 		sut.insertUser(LOGIN, EMAIL_ADDRESS, PASSWORD);
-		sut.insertUser("dummyLogin", "dummyMail", "dummyPassword");
+		sut.insertUser(RegisteredUser.adminLogin, ADMIN_ADDRESS, ADMIN_PASSWORD);
 		
 		assertEquals(numberOfUsersAfterInsertions, sut.getUsers().size());
 	}
@@ -82,7 +86,7 @@ public class RegisteredUsersDatabaseTableTestSuite {
 		RegisteredUser userNotRegistered = null;
 		
 		sut.insertUser(LOGIN, EMAIL_ADDRESS, PASSWORD);
-		sut.insertUser("dummyLogin", "dummyMail", "dummyPassword");
+		sut.insertUser(RegisteredUser.adminLogin, ADMIN_ADDRESS, ADMIN_PASSWORD);
 
 		assertEquals(numberOfUsersBeforeDeletion, sut.getUsers().size());
 		
@@ -91,4 +95,23 @@ public class RegisteredUsersDatabaseTableTestSuite {
 		assertEquals(userNotRegistered, sut.getRegisteredUser(LOGIN));
 		assertEquals(numberOfUsersAfterDeletion, sut.getUsers().size());
 	}
+	
+	@Test
+	public void testRemoveAllRegisteredUsers() {
+		int numberOfUsersBeforeDeletion = 2;
+		int numberOfUsersAfterDeletion = 1;
+		RegisteredUser userNotRegistered = null;
+		
+		sut.insertUser(LOGIN, EMAIL_ADDRESS, PASSWORD);
+		sut.insertUser(RegisteredUser.adminLogin, ADMIN_ADDRESS, ADMIN_PASSWORD);
+
+		assertEquals(numberOfUsersBeforeDeletion, sut.getUsers().size());
+		
+		sut.removeAllRegisteredUsers();
+		
+		assertEquals(userNotRegistered, sut.getRegisteredUser(LOGIN));
+		assertEquals(ADMIN_USER.toString(), sut.getRegisteredUser(RegisteredUser.adminLogin).toString());
+		assertEquals(numberOfUsersAfterDeletion, sut.getUsers().size());	
+	}
+
 }

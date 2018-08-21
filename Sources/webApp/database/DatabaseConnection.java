@@ -10,7 +10,7 @@ public class DatabaseConnection {
     public UsersDatabaseTable usersTable;
     public RegisteredUsersDatabaseTable registeredUsersTable;
 
-    private Connection databaseConnection;
+    private static Connection databaseConnection;
 
 	public DatabaseConnection() {
 		try {
@@ -26,6 +26,7 @@ public class DatabaseConnection {
 	    	System.err.println("Connection to database failed");
 	    	e.printStackTrace();
 	    }
+		createAllTables();
 	}
 
 	public void createAllTables()  {

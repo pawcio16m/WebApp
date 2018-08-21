@@ -17,13 +17,9 @@ import webApp.database.DatabaseConnection;
 @WebServlet("/jsp/WebApp")
 public class WebApp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static DatabaseConnection databaseConnection;
     
 	public WebApp() {
         super();
-        databaseConnection = new DatabaseConnection();
-        databaseConnection.createAllTables();
-        System.out.println("WebApp created");
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +28,8 @@ public class WebApp extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-	
+		DatabaseConnection databaseConnection = new DatabaseConnection();
+		
 		if (request.getParameter("login") != null) {
 			response.sendRedirect("login.jsp");	
 		}
@@ -43,6 +40,19 @@ public class WebApp extends HttpServlet {
 		    RequestDispatcher rd = request.getRequestDispatcher("/LogoutServlet");
 		    rd.forward(request, response);
 		}
+		else if (request.getParameter("printUsers") != null) {
+			String registeredUserTable = databaseConnection.registeredUsersTable.toHtml();
+			System.out.print(databaseConnection.registeredUsersTable.toString());
+			request.setAttribute("registeredUserTable", registeredUserTable);
+			request.getRequestDispatcher("home.jsp").forward(request, response);
+		}
+		else if (request.getParameter("deleteUsers") != null) {
+			if (databaseConnection.registeredUsersTable.removeAllRegisteredUsers()) {
+				System.out.println("All users deleted");
+				request.getRequestDispatcher("home.jsp").forward(request, response);
+			}
+		}
+		
 	}
 
 }

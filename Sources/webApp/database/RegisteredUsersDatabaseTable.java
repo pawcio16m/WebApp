@@ -31,7 +31,7 @@ public class RegisteredUsersDatabaseTable {
 	private void createRegisteredUsersTable() throws SQLException {
 		statemant.execute(createRegisteredUsersTable);
 	}
-
+	
 	public boolean insertUser(String p_login, String p_emailAddress, String p_password) {
 		try {
 			PreparedStatement insertStatement = databaseConnection.prepareStatement(
@@ -83,6 +83,17 @@ public class RegisteredUsersDatabaseTable {
 		return result;
 	}
 	
+    public String toHtml()
+	{
+		String result = "<div><table border=\"1\"><tr><th>UserId</th><th>login</th><th>email</th></tr>"; 
+		for (RegisteredUser registeredUser : getUsers())
+		{
+			result = result.concat("<tr>"+registeredUser.toHtml()+"</tr>");
+		}
+		result = result.concat("</table></div>");
+		return result;
+	}
+    
 	public RegisteredUser getRegisteredUser(String p_login)
 	{
 		int onlyOneUserFound = 1;
@@ -129,6 +140,20 @@ public class RegisteredUsersDatabaseTable {
 			statemant.execute(removeRegisteredUser);
 		} catch (SQLException e) {
 			System.err.println("Removing user "+p_login+" from database failed.");
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
+	}
+	
+	public boolean removeAllRegisteredUsers()
+	{
+		String removeAllRegisteredUser = "DELETE FROM "+tableName+" WHERE login != '"+RegisteredUser.adminLogin+"'";
+		try {
+			statemant.execute(removeAllRegisteredUser);
+		} catch (SQLException e) {
+			System.err.println("Removing all users from database failed.");
 			e.printStackTrace();
 			return false;
 		}
