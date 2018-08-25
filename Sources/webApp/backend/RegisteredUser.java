@@ -29,7 +29,6 @@ public class RegisteredUser {
 	
 	public static boolean validatePassword(String p_password)
 	{
-		 //Pattern specailCharPatten = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
 		 Pattern UpperCasePatten = Pattern.compile("[A-Z ]");
 		 Pattern lowerCasePatten = Pattern.compile("[a-z ]");
 		 Pattern digitCasePatten = Pattern.compile("[0-9 ]");
@@ -38,10 +37,6 @@ public class RegisteredUser {
 		 {
 			 return false;
 		 }
-//		 if (!specailCharPatten.matcher(p_password).find())
-//		 {
-//			 return false;
-//		 }
 		 if (!UpperCasePatten.matcher(p_password).find())
 		 {
 			 return false;

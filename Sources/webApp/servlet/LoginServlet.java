@@ -18,7 +18,6 @@ public class LoginServlet extends HttpServlet
 	private static final long serialVersionUID = 1L;
 	private int SESSION_DURATION = 60*60; //1h
 	public static String SESSION_ATRIBUTE = "login";
-	private String ADMIN_LOGIN = "pawcio16m";	
        
     public LoginServlet()
     {

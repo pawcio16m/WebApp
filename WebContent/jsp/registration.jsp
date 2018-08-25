@@ -21,6 +21,7 @@
  	<tr>
  		<td>Password</td>
  		<td><input type="password" name="password" /></td>
+ 		<td>Password should have at least 8 characters and contains at least: one upper, one lower case and number</td>
  	</tr>
  	<tr>
  		<td><p style="color:red;"><%=(request.getAttribute("errMessage") == null) ? ""

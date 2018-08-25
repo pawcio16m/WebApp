@@ -10,7 +10,7 @@ public class RegisteredUserTestSuite
 	private final int USER_ID = 1;
 	private final String LOGIN = "myLogin"; 
 	private final String EMAIL_ADDRESS = "myLogin@at.com"; 
-	private final String PASSWORD = "myPassword"; 
+	private final String PASSWORD = "myPassword1"; 
 	private final String INCORRECT_PASSWORD = "notMyPassword"; 
 	private final boolean PASSWORD_CORRECT = true;
 	private final boolean PASSWORD_NOT_CORRECT = false;
@@ -44,4 +44,90 @@ public class RegisteredUserTestSuite
 		assertEquals(false, RegisteredUser.isAdminMode(LOGIN));	
 		assertEquals(true, RegisteredUser.isAdminMode(ADMIN_LOGIN));		
 	}
+	
+	@Test 
+	public void testCorrectEmailVerification()
+	{
+	    boolean emaillCorrect = true;
+	    String emaill = "m@g.pl";
+	    
+	    assertEquals(RegisteredUser.validateEmail(emaill), emaillCorrect);
+	    assertEquals(RegisteredUser.validateEmail(EMAIL_ADDRESS), emaillCorrect);
+	}
+	
+	@Test
+	public void testIncorrectEmailVerification()
+	{
+	    boolean emailIncorrect = false;
+	    String emaill = "@g.l";
+	    
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	    
+	    emaill = "1@d.p";
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	    
+	    emaill = "";
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	    
+	    emaill = null;
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	    
+	    emaill = "a";
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	    
+	    emaill = "a.@";
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	    
+	    emaill = "a@a";
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	        
+	    emaill = "a@.p";
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	        
+	    emaill = "a@.a.p";
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	        
+	    emaill = "a.@1.pl";
+	    assertEquals(RegisteredUser.validateEmail(emaill), emailIncorrect);
+	}
+	
+	@Test 
+	public void testCorrectPasswordVerification()
+	{
+	    boolean passwordCorrect = true;
+	    String password = "M1aaaaaa";
+	        
+	    assertEquals(RegisteredUser.validatePassword(password), passwordCorrect);
+	    assertEquals(RegisteredUser.validatePassword(PASSWORD), passwordCorrect);	    
+	}
+	
+	@Test
+	public void testIncorrectPasswordVerification()
+	{
+	    boolean passwordIncorrect = false;
+	    String password = "aa";
+	            
+	    assertEquals(RegisteredUser.validatePassword(password), passwordIncorrect);
+		    
+	    password = "Aa1";
+	    assertEquals(RegisteredUser.validatePassword(password), passwordIncorrect);
+ 
+	    password = "onlylowercase";
+	    assertEquals(RegisteredUser.validatePassword(password), passwordIncorrect);
+        
+	    password = "ONLYUPPERCASE";
+	    assertEquals(RegisteredUser.validatePassword(password), passwordIncorrect);
+	    
+	    password = "1234567890";
+	    assertEquals(RegisteredUser.validatePassword(password), passwordIncorrect);
+
+	    password = "alllowercaseOneupper";
+	    assertEquals(RegisteredUser.validatePassword(password), passwordIncorrect);
+    
+	    password = "onenumber1alllowercase";
+	    assertEquals(RegisteredUser.validatePassword(password), passwordIncorrect);
+	    
+	    password = "ONENUMBER1ALLUPPERCASE";
+	    assertEquals(RegisteredUser.validatePassword(password), passwordIncorrect);
+	}	
 }
