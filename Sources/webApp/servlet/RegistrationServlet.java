@@ -49,7 +49,8 @@ public class RegistrationServlet extends HttpServlet
 		
 		if (errorMsg.isEmpty())
 		{
-			if (databaseConnection.registeredUsersTable.insertUser(login, emailAddress, password))
+			if (databaseConnection.registeredUsersTable.insertUser(login, emailAddress, password) &&
+			    databaseConnection.usersTable.insertUser(login))
 			{
 				System.out.println("User: "+login+" added to database.");
 				response.sendRedirect("home.jsp");
@@ -58,7 +59,7 @@ public class RegistrationServlet extends HttpServlet
 			else
 			{
 				errorMsg = "User with provided login or email already exist.";
-			}
+			}			
 		}		
 		request.setAttribute("errMessage", errorMsg);
 		System.out.println("User: "+login+" not added to database.");

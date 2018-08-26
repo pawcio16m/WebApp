@@ -83,7 +83,7 @@ public class RegisteredUsersDatabaseTableTestSuite
 			new RegisteredUser(USER_ID, LOGIN, EMAIL_ADDRESS, updatedPassword);
 		
 		sut.insertUser(LOGIN, EMAIL_ADDRESS, PASSWORD);
-		sut.updatePassword(USER_ID, updatedPassword);
+		sut.updatePassword(LOGIN, updatedPassword);
 		
 		assertEquals(registerdUserWithUpdatedPassword.toString(), sut.getRegisteredUser(LOGIN).toString());
 	}

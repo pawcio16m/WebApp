@@ -74,5 +74,26 @@ public class LoginServlet extends HttpServlet
 		}
 		response.sendRedirect("home.jsp");
 	}
-
+	
+	public static String getLoginNameFromCookies(HttpServletRequest request)
+	{
+        Cookie loginCookie = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null)
+        {
+           for (Cookie cookie : cookies)
+           {
+              if (cookie.getName().equals(LoginServlet.SESSION_ATRIBUTE))
+              {
+                 loginCookie = cookie;
+                 break;
+              }
+           }
+        }
+        if (loginCookie != null)
+        {
+            return loginCookie.getValue();
+        }
+        return null;
+	}
 }

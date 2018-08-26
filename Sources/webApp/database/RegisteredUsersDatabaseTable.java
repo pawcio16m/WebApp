@@ -30,7 +30,8 @@ public class RegisteredUsersDatabaseTable {
 	}
 		
 	private void createRegisteredUsersTable() throws SQLException
-	{
+	{ 
+        System.out.println(tableName+" created");
 		statemant.execute(createRegisteredUsersTable);
 	}
 	
@@ -80,6 +81,7 @@ public class RegisteredUsersDatabaseTable {
 	
 	public void deleteTable() throws SQLException
 	{
+	    System.out.println(tableName+" deleted.");
 		statemant.execute(deleteRegisteredUsersTable);
 	}
 		
@@ -97,9 +99,13 @@ public class RegisteredUsersDatabaseTable {
     public String toHtml()
 	{
 		String result = "<div><table border=\"1\"><tr><th>UserId</th><th>login</th><th>email</th></tr>"; 
-		for (RegisteredUser registeredUser : getUsers())
+		List<RegisteredUser> registeredUsers =  getUsers();
+		if (registeredUsers != null)
 		{
-			result = result.concat("<tr>"+registeredUser.toHtml()+"</tr>");
+    		for (RegisteredUser registeredUser :registeredUsers)
+    		{
+    			result = result.concat("<tr>"+registeredUser.toHtml()+"</tr>");
+    		}
 		}
 		result = result.concat("</table></div>");
 		return result;
@@ -137,16 +143,16 @@ public class RegisteredUsersDatabaseTable {
 		return null;		
 	}
 	
-	public boolean updatePassword(int p_userId, String p_newPassword)
+	public boolean updatePassword(String p_login, String p_newPassword)
 	{
-		String updatePassword = "UPDATE "+tableName+ " SET password = '"+p_newPassword+"' WHERE user_id = "+p_userId;
+		String updatePassword = "UPDATE "+tableName+ " SET password = '"+p_newPassword+"' WHERE login = '"+p_login+"'";
 		try 
 		{
 			statemant.execute(updatePassword);
 		}
 		catch (SQLException e)
 		{
-			System.err.println("Updating password for user "+p_userId+" failed.");
+			System.err.println("Updating password for user "+p_login+" failed.");
 			e.printStackTrace();
 			return false;
 		}

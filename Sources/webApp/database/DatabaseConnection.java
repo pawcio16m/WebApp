@@ -42,6 +42,7 @@ public class DatabaseConnection
 		try
 		{
 			registeredUsersTable = new RegisteredUsersDatabaseTable();
+			usersTable = new UsersDatabaseTable();
 			
 		}
 		catch	(SQLException e) 
@@ -55,7 +56,8 @@ public class DatabaseConnection
 	{
 		try
 		{
-			registeredUsersTable.deleteTable();			
+			registeredUsersTable.deleteTable();		
+			usersTable.deleteTable();
 		} 
 		catch (SQLException e) 
 		{

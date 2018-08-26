@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import webApp.backend.ApplicationConsts;
 import webApp.database.DatabaseConnection;
 
 @WebServlet("/jsp/WebApp")
@@ -18,7 +19,8 @@ public class WebApp extends HttpServlet {
 	public static final String LOGOUT_PARAMETER = "logout";
 	public static final String PRINT_USERS_PARAMETER = "printUsers";
 	public static final String DELETE_USERS_PARAMETER = "deleteUsers";
-    
+	public static final String FILL_PROFILE_PARAMETER = "fillProfile";
+	
 	public WebApp() {
         super();
     }
@@ -43,17 +45,28 @@ public class WebApp extends HttpServlet {
 		}
 		else if (request.getParameter(PRINT_USERS_PARAMETER) != null) {
 			String registeredUserTable = databaseConnection.registeredUsersTable.toHtml();
+			String usersTable = databaseConnection.usersTable.toHtml();
+			
 			System.out.print(databaseConnection.registeredUsersTable.toString());
-			request.setAttribute("registeredUserTable", registeredUserTable);
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+	        databaseConnection.usersTable.printAllUsers();
+	        
+	        request.setAttribute("registeredUserTable", registeredUserTable);
+	        request.setAttribute("userTable", usersTable);
+			
+	        request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 		else if (request.getParameter(DELETE_USERS_PARAMETER) != null) {
-			if (databaseConnection.registeredUsersTable.removeAllRegisteredUsers()) {
+			if (databaseConnection.registeredUsersTable.removeAllRegisteredUsers() &&
+			    databaseConnection.usersTable.removeAllUsers()) {
 				System.out.println("All users deleted.");
 				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}
 		}
-		
+		else if (request.getParameter(FILL_PROFILE_PARAMETER) != null) {
+		    request.setAttribute("supportedCities", ApplicationConsts.SUPPORTED_CITIES);
+	        request.setAttribute("preferedActivities", ApplicationConsts.SUPPORTED_ACTIVITIES);
+	            
+	        request.getRequestDispatcher("profileForm.jsp").forward(request, response);
+		}		
 	}
-
 }

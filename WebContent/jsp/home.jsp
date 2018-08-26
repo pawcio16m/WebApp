@@ -10,5 +10,7 @@
 <jsp:include page="sessionCtrl.jsp" />
 <%=(request.getAttribute("registeredUserTable") == null) ? ""
 	: request.getAttribute("registeredUserTable")%>
+<%=(request.getAttribute("userTable") == null) ? ""
+   : request.getAttribute("userTable")%>
 </body>
 </html>
