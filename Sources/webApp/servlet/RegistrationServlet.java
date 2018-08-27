@@ -6,6 +6,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import webApp.backend.ErrorMsgs;
 import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
 
@@ -39,7 +41,7 @@ public class RegistrationServlet extends HttpServlet
 
 		if (!RegisteredUser.validatePassword(password))
 		{
-			errorMsg = "Password is incorrect";
+			errorMsg = "Password is incorrect"; 
 		}
 		
 		if (!RegisteredUser.validateEmail(emailAddress))
@@ -49,14 +51,14 @@ public class RegistrationServlet extends HttpServlet
 		
 		if (errorMsg.isEmpty())
 		{
-			if (databaseConnection.registeredUsersTable.insertUser(login, emailAddress, password) &&
-			    databaseConnection.usersTable.insertUser(login))
+			if (ErrorMsgs.NO_ERROR == databaseConnection.registeredUsersTable.insertUser(login, emailAddress, password) &&
+			    ErrorMsgs.NO_ERROR == databaseConnection.usersTable.insertUser(login))
 			{
 				System.out.println("User: "+login+" added to database.");
 				response.sendRedirect("home.jsp");
 				return;
 			}
-			else
+			else 
 			{
 				errorMsg = "User with provided login or email already exist.";
 			}			

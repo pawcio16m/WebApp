@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import webApp.backend.ErrorMsgs;
 import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
 
@@ -38,7 +39,8 @@ public class ProfileFillerServlet extends HttpServlet {
         String oldPassword = request.getParameter("oldPassword");
         String newPassword = request.getParameter("newPassword");
         
-        if (login != null && databaseConnection.usersTable.updateUserProfile(login, firstName, lastName, age, phoneNumber, city, preferedActivity))
+        if (login != null &&  
+            ErrorMsgs.NO_ERROR == databaseConnection.usersTable.updateUserProfile(login, firstName, lastName, age, phoneNumber, city, preferedActivity))
         {
             System.out.println("User "+login+" has updated profile.");
         }
@@ -57,7 +59,7 @@ public class ProfileFillerServlet extends HttpServlet {
             
             if (true == databaseConnection.registeredUsersTable.getRegisteredUser(login).isPasswordCorrect(oldPassword))
             {
-                if (false ==  databaseConnection.registeredUsersTable.updatePassword(login, newPassword))
+                if (ErrorMsgs.NO_ERROR != databaseConnection.registeredUsersTable.updatePassword(login, newPassword))
                 {
                     errorMsg = "New password updating failed.";   
                 }

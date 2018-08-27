@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import webApp.backend.ApplicationConsts;
+import webApp.backend.ErrorMsgs;
 import webApp.database.DatabaseConnection;
 
 @WebServlet("/jsp/WebApp")
@@ -48,7 +49,7 @@ public class WebApp extends HttpServlet {
 			String usersTable = databaseConnection.usersTable.toHtml();
 			
 			System.out.print(databaseConnection.registeredUsersTable.toString());
-	        databaseConnection.usersTable.printAllUsers();
+			System.out.print(databaseConnection.usersTable.toString());
 	        
 	        request.setAttribute("registeredUserTable", registeredUserTable);
 	        request.setAttribute("userTable", usersTable);
@@ -56,8 +57,8 @@ public class WebApp extends HttpServlet {
 	        request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 		else if (request.getParameter(DELETE_USERS_PARAMETER) != null) {
-			if (databaseConnection.registeredUsersTable.removeAllRegisteredUsers() &&
-			    databaseConnection.usersTable.removeAllUsers()) {
+			if (ErrorMsgs.NO_ERROR == databaseConnection.registeredUsersTable.removeAllRegisteredUsers() &&
+			    ErrorMsgs.NO_ERROR == databaseConnection.usersTable.removeAllUsers()) {
 				System.out.println("All users deleted.");
 				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}

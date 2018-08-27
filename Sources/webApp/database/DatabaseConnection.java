@@ -3,6 +3,7 @@ package webApp.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import webApp.backend.ErrorMsgs;
 
 public class DatabaseConnection
 {
@@ -10,8 +11,6 @@ public class DatabaseConnection
     public static final String DB_URL = "jdbc:sqlite:application.db";
     public UsersDatabaseTable usersTable;
     public RegisteredUsersDatabaseTable registeredUsersTable;
-
-    private static Connection databaseConnection;
 
 	public DatabaseConnection()
 	{
@@ -24,58 +23,80 @@ public class DatabaseConnection
 	    	System.err.println("JDBC driver not found.");
 	        e.printStackTrace();
 	    }
+		try 
+		{
+		    registeredUsersTable = new RegisteredUsersDatabaseTable(DatabaseConnection.getDatabaseConnection().createStatement());
+		    usersTable = new UsersDatabaseTable(DatabaseConnection.getDatabaseConnection().createStatement());
+		}
+		catch (SQLException e)
+		{
+		    System.err.println("Error when creatin table.");
+		    e.printStackTrace();
+		}        
+	}
 
+	public static Connection getDatabaseConnection()
+	{
 		try
 		{
-			databaseConnection = DriverManager.getConnection(DB_URL);
+			return DriverManager.getConnection(DB_URL);
 	    } 
 		catch (SQLException e) 
 		{
 	    	System.err.println("Connection to database failed.");
 	    	e.printStackTrace();
+	    	return null;
 	    }
-		createAllTables();
+	}
+	
+	public static ErrorMsgs closeConnection()
+	{
+	    Connection connection = getDatabaseConnection();
+	    if (null != connection)
+	    {
+	        try
+	        {
+	            connection.close();
+	            return ErrorMsgs.NO_ERROR;
+	        } 
+	        catch (SQLException e)
+	        {
+	            System.err.println("Error when closing database connection");
+	            e.printStackTrace();
+	            return ErrorMsgs.DATABASE_CONNECTION_CLOSURE_FAILED;
+	        }
+	    }
+	    else
+	    {
+	        return ErrorMsgs.EMPTY_DATABASE_CONNECTION;
+	    }
 	}
 
-	private void createAllTables()
+	public ErrorMsgs createAllTables()
 	{
-		try
-		{
-			registeredUsersTable = new RegisteredUsersDatabaseTable();
-			usersTable = new UsersDatabaseTable();
-			
+	    if (ErrorMsgs.NO_ERROR == registeredUsersTable.createRegisteredUsersTable() &&
+	        ErrorMsgs.NO_ERROR == usersTable.createUsersTable())
+	    {			
+			return ErrorMsgs.NO_ERROR;			
 		}
-		catch	(SQLException e) 
+	    else
 		{
 	    	System.err.println("Cannot create tables.");
-	    	e.printStackTrace();
+	    	return ErrorMsgs.DATABASE_TABLE_CREATION_FAILED;
 		}
 	}
 	
-	public void deleteAllTables() 
+	public ErrorMsgs deleteAllTables() 
 	{
-		try
-		{
-			registeredUsersTable.deleteTable();		
-			usersTable.deleteTable();
-		} 
-		catch (SQLException e) 
-		{
-	    	System.err.println("Cannot delete tables.");
-	    	e.printStackTrace();
-		}
-	}
-	
-	public void closeConnection()
-	{
-		try
-		{
-			databaseConnection.close();
-		} 
-		catch (SQLException e)
-		{
-			System.err.println("Error when closing database connection");
-			e.printStackTrace();
-		}
+	    if (ErrorMsgs.NO_ERROR == registeredUsersTable.deleteTable() &&
+	        ErrorMsgs.NO_ERROR == usersTable.deleteTable())
+	    {           
+	        return ErrorMsgs.NO_ERROR;          
+	    }
+	    else
+	    {
+	        System.err.println("Cannot create tables.");
+	        return ErrorMsgs.DATABASE_TABLE_DELETION_FAILED;
+	    }
 	}
 }

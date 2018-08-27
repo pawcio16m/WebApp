@@ -1,20 +1,17 @@
 package webApp.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-
+import webApp.backend.ErrorMsgs;
 import webApp.backend.RegisteredUser;
 import webApp.backend.User;
 
 public class UsersDatabaseTable {
-    private final String tableName = "users";
-	private String createUsersTable = "CREATE TABLE IF NOT EXISTS "+tableName+" ("
+    public final String tableName = "users";
+	public String createUsersTable = "CREATE TABLE IF NOT EXISTS "+tableName+" ("
 		+ "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
 		+ "login text NOT NULL UNIQUE,"
 		+ "firstName text,"
@@ -23,34 +20,72 @@ public class UsersDatabaseTable {
 		+ "phoneNumber text,"
 		+ "city text,"
         + "preferedActivity text)";
-	private final String deleteUsersTable = "DROP TABLE "+tableName;
-    private final Connection databaseConnection = DriverManager.getConnection(DatabaseConnection.DB_URL);    
-    private Statement statemant;
+	public final String deleteUsersTable = "DROP TABLE "+tableName;
+	public final String selectAllUSers = "SELECT * FROM "+tableName;
+    public final String removeAllRegisteredUser = "DELETE FROM "+tableName+" WHERE login != '"+RegisteredUser.adminLogin+"'";
+	public final String tableHeader = "[UserId] | Login\t | Name\t |  Age\t | PhoneNumber\t | City\t | Prefered Activity\n";
+	public final String tableHtmlHeader = "<div><table border=\"1\"><tr><th>UserId</th><th>login</th><th>Name</th><th>Age</th>"
+            + "<th>Phone Number</th><th>City</th><th>Prefered Activity</th>"; 
+	private Statement statement;
 	
-	UsersDatabaseTable() throws SQLException {
-		statemant = databaseConnection.createStatement(); 
-		createUsersTable();
+	public UsersDatabaseTable(Statement p_statement)
+	{
+	    statement = p_statement;
 	}
 	
-	public void createUsersTable() throws SQLException
+	public ErrorMsgs createUsersTable()
 	{
-	    statemant.execute(createUsersTable);
-	    System.out.println(tableName+" created");
+	    try
+	    {
+    	    statement.execute(createUsersTable);
+    	    System.out.println(tableName+" created");
+	    }
+	    catch (SQLException e)
+	    {
+	        System.err.println("Error when creatin users table");
+	        e.printStackTrace();
+	        return ErrorMsgs.DATABASE_TABLE_CREATION_FAILED;
+	    }
+	    return ErrorMsgs.NO_ERROR;
 	}
 
-	public void deleteTable() throws SQLException
+	public ErrorMsgs deleteTable()
 	{
-	    System.out.println(tableName+" deleted.");
-	    statemant.execute(deleteUsersTable);
+	    try
+	    {
+    	    statement.execute(deleteUsersTable);
+    	    System.out.println(tableName+" deleted.");
+	    }
+	    catch (SQLException e)
+	    {
+	        System.err.println("Error when creatin users table");
+	        e.printStackTrace();
+	        return ErrorMsgs.DATABASE_TABLE_DELETION_FAILED;
+	    }
+	    return ErrorMsgs.NO_ERROR;
 	}
 	
-    public String toHtml()
+	@Override
+	public String toString()
+	{
+	    String result = tableHeader;
+	    List<User> users =  getUsers();
+	    if (null != users)
+	    {     
+	        for (User user : users)
+	        {
+	            result = result.concat(user.toString()+"\n");
+	        }	        
+	    }
+
+	    return result;
+	}
+    
+	public String toHtml()
     {
-        String result = "<div><table border=\"1\"><tr><th>UserId</th><th>login</th><th>Name</th><th>Age</th>"
-                + "<th>Phone Number</th><th>City</th><th>Prefered Activity</th>"; 
-       
+        String result = tableHtmlHeader;
         List<User> users = getUsers();
-        if (users != null)
+        if (null != users)
         {
             for (User user : users)
             {
@@ -61,27 +96,23 @@ public class UsersDatabaseTable {
         return result;
     }
 	
-	public boolean insertUser(String p_login) {
-		try {
-			PreparedStatement insertStatement = databaseConnection.prepareStatement(
-					"INSERT INTO "+tableName+" VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);");
-			insertStatement.setString(1, p_login);
-			insertStatement.setString(2, "");
-			insertStatement.setString(3, "");
-			insertStatement.setInt(4, 0);
-			insertStatement.setString(5, "");
-			insertStatement.setString(6, "");
-			insertStatement.setString(7, "");
-			insertStatement.execute();
-		} catch (SQLException e) {
+	public ErrorMsgs insertUser(String p_login)
+	{
+        String insertUser = "INSERT INTO "+tableName+" VALUES (NULL, "+p_login+", NULL, NULL, NULL, NULL, NULL, NULL);";
+	    try 
+		{
+			statement.execute(insertUser);			
+		} 
+	    catch (SQLException e)
+	    {
 			System.err.println("Error when user insertion.");
 			e.printStackTrace();
-			return false;
+			return ErrorMsgs.INSERT_USER_FAILED;
 		}
-		return true;	
+		return ErrorMsgs.NO_ERROR;
 	}
 
-    public boolean updateUserProfile(String p_login, String p_firstName, String p_lastName, int p_age, String p_phoneNumber,
+    public ErrorMsgs updateUserProfile(String p_login, String p_firstName, String p_lastName, int p_age, String p_phoneNumber,
             String p_city, String p_preferedActivity)
     {
         String updateProfile = "UPDATE "+tableName+ " SET firstName = '"+p_firstName+"',"
@@ -93,22 +124,22 @@ public class UsersDatabaseTable {
                 + " WHERE login = '"+p_login+"'";   
         try 
         {
-            statemant.execute(updateProfile);
+            statement.execute(updateProfile);
         }
         catch (SQLException e)
         {
             System.err.println("Updating profile for user "+p_login+" failed.");
             e.printStackTrace();
-            return false;
+            return ErrorMsgs.UPDATE_RECORD_FAILED;
         }
-        return true; 
+        return ErrorMsgs.NO_ERROR; 
     }
 	
 
 	public List<User> getUsers() {
 		List<User> users = new LinkedList<User>();
 		try {
-			ResultSet usersTable = statemant.executeQuery("SELECT * FROM users");
+			ResultSet usersTable = statement.executeQuery(selectAllUSers);
 
 			while(usersTable.next()) {
 				User user = new User(usersTable.getInt("user_id"),
@@ -128,28 +159,18 @@ public class UsersDatabaseTable {
 	    return users;
 	}
 	
-	public void printAllUsers()
+	public ErrorMsgs removeAllUsers()
 	{
-		System.out.println("[UserId] | Login\t | Name\t |  Age\t | PhoneNumber\t | City\t | Prefered Activity");
-		for (User user : getUsers())
-		{
-			System.out.println(user.toString());
-		}
-	}
-	
-	public boolean removeAllUsers()
-	{
-	    String removeAllRegisteredUser = "DELETE FROM "+tableName+" WHERE login != '"+RegisteredUser.adminLogin+"'";
 	    try
 	    {
-	        statemant.execute(removeAllRegisteredUser);
+	        statement.execute(removeAllRegisteredUser);
 	    } 
 	    catch (SQLException e)
 	    {
 	        System.err.println("Removing all users from database failed.");
 	        e.printStackTrace();
-	        return false;
+	        return ErrorMsgs.REMOVE_ALL_USERS_FAILED;
 	    }
-	    return true;        
+	    return ErrorMsgs.NO_ERROR;        
 	}
 }

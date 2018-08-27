@@ -22,13 +22,27 @@ public class User {
 		city = p_city;
 		preferedActivity = p_preferedActivity;
 	}
-	
-    @Override
-    public String toString() {
-        return "["+userId+"]\t | "+login+"\t | "+firstName+" "+lastName+"\t |  "+age+"\t | "+phoneNumber+"\t | "+preferedActivity+"\t | "+city;
+
+	public static ErrorMsgs validatePhoneNumber(String p_phoneNumber)
+	{
+	    for (int charIdx = 0; charIdx < p_phoneNumber.length(); ++charIdx)
+	    {
+	        if (false == Character.isDigit(p_phoneNumber.charAt(charIdx)))
+	        {
+	            return ErrorMsgs.PHONE_NUMBER_INVALID;
+	        }	        
+	    }
+	    return ErrorMsgs.NO_ERROR;
+	}
+    
+	@Override
+    public String toString()
+	{
+        return "["+userId+"] | "+login+" | "+firstName+" "+lastName+" | "+age+" | "+phoneNumber+" | "+city+" | "+preferedActivity+" |";
     }
     
-    public String toHtml() {
+    public String toHtml()
+    {
         return "<td>"+userId+"</td><td>"+login+"</td><td>"+firstName+" "+lastName+"</td><td>"+age+"</td><td>"
                 +phoneNumber+"</td><td>"+city+"</td><td>"+preferedActivity+"</td>";
     }

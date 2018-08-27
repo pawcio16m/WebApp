@@ -1,0 +1,118 @@
+package webAppTest.database;
+
+import static org.mockito.Mockito.*;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import java.sql.Connection;
+import java.sql.SQLException;
+import webApp.backend.ErrorMsgs;
+import webApp.database.DatabaseConnection;
+import webApp.database.RegisteredUsersDatabaseTable;
+import webApp.database.UsersDatabaseTable;
+
+@RunWith(MockitoJUnitRunner.class)
+public class DatabaseConnectionTestSuite
+{
+    private DatabaseConnection sut; 
+    
+    @Mock 
+    RegisteredUsersDatabaseTable registeredUsersDatabaseMock;
+    
+    @Mock
+    UsersDatabaseTable usersDatabaseMock;
+    
+    @Mock
+    Connection connectionMock;
+    
+    @Before
+    public void setUp() throws Exception
+    {    
+        sut = new DatabaseConnection();
+
+        sut.registeredUsersTable = registeredUsersDatabaseMock;
+        sut.usersTable = usersDatabaseMock;
+    }
+
+    @Test
+    public void testCloseConnection()
+    {
+        assertEquals(ErrorMsgs.NO_ERROR, DatabaseConnection.closeConnection());
+    }
+    
+    @Test
+    public void testCreateAllTables()
+    {
+        doReturn(ErrorMsgs.NO_ERROR).when(registeredUsersDatabaseMock).createRegisteredUsersTable();
+        doReturn(ErrorMsgs.NO_ERROR).when(usersDatabaseMock).createUsersTable();
+        
+        assertEquals(ErrorMsgs.NO_ERROR, sut.createAllTables());
+    }
+    
+    @Test
+    public void testCreateAllTablesWhenRegisteredUsersTableReturnsError()
+    {
+        doReturn(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED).when(registeredUsersDatabaseMock).createRegisteredUsersTable();
+        doReturn(ErrorMsgs.NO_ERROR).when(usersDatabaseMock).createUsersTable();
+     
+        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.createAllTables());
+    }
+    
+    @Test
+    public void testCreateAllTablesWhenUsersTableReturnsError()
+    {
+        doReturn(ErrorMsgs.NO_ERROR).when(registeredUsersDatabaseMock).createRegisteredUsersTable();
+        doReturn(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED).when(usersDatabaseMock).createUsersTable();
+     
+        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.createAllTables());
+    }
+    
+    @Test
+    public void testCreateAllTablesWhenAllTablesReturnsError()
+    {
+        doReturn(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED).when(registeredUsersDatabaseMock).createRegisteredUsersTable();
+        doReturn(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED).when(usersDatabaseMock).createUsersTable();
+     
+        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.createAllTables());
+    }
+    
+    @Test
+    public void testDeleteAllTables()
+    {
+        doReturn(ErrorMsgs.NO_ERROR).when(registeredUsersDatabaseMock).deleteTable();
+        doReturn(ErrorMsgs.NO_ERROR).when(usersDatabaseMock).deleteTable();
+        
+        assertEquals(ErrorMsgs.NO_ERROR, sut.deleteAllTables());
+    }
+    
+    @Test
+    public void testDeleteAllTablesWhenRegisteredUsersTableReturnsError()
+    {
+        doReturn(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED).when(registeredUsersDatabaseMock).deleteTable();
+        doReturn(ErrorMsgs.NO_ERROR).when(usersDatabaseMock).deleteTable();
+     
+        assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, sut.deleteAllTables());
+    }
+    
+    @Test
+    public void testDeleteAllTablesWhenUsersTableReturnsError()
+    {
+        doReturn(ErrorMsgs.NO_ERROR).when(registeredUsersDatabaseMock).deleteTable();
+        doReturn(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED).when(usersDatabaseMock).deleteTable();
+     
+        assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, sut.deleteAllTables());
+    }
+    
+    @Test
+    public void testDeleteAllTablesAllTablesReturnsError()
+    {
+        doReturn(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED).when(registeredUsersDatabaseMock).deleteTable();
+        doReturn(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED).when(usersDatabaseMock).deleteTable();
+     
+        assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, sut.deleteAllTables());
+    }
+
+}
