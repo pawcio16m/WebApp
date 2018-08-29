@@ -18,7 +18,7 @@ public class RegisteredUsersDatabaseTable {
 		+ "password text NOT NULL)";
 	public final String deleteRegisteredUsersTable = "DROP TABLE "+tableName;
 	public final String selectAllRegisteredUsers = "SELECT * FROM "+tableName;
-    public String removeAllRegisteredUser = "DELETE FROM "+tableName+" WHERE login != '"+RegisteredUser.adminLogin+"'";
+    public final String removeAllRegisteredUser = "DELETE FROM "+tableName+" WHERE login != '"+RegisteredUser.adminLogin+"'";
 	public final String tableHeader = "[UserId] | login | emailAddress |\n";
 	public final String tableHtmlHeader = "<div><table border=\"1\"><tr><th>UserId</th><th>login</th><th>email</th></tr>";
 	
