@@ -30,7 +30,7 @@ public class DatabaseConnection
 		}
 		catch (SQLException e)
 		{
-		    System.err.println("Error when creatin table.");
+		    System.err.println(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED.toString());
 		    e.printStackTrace();
 		}        
 	}
@@ -43,7 +43,7 @@ public class DatabaseConnection
 	    } 
 		catch (SQLException e) 
 		{
-	    	System.err.println("Connection to database failed.");
+	    	System.err.println("Error when connecting to database.");
 	    	e.printStackTrace();
 	    	return null;
 	    }
@@ -61,13 +61,14 @@ public class DatabaseConnection
 	        } 
 	        catch (SQLException e)
 	        {
-	            System.err.println("Error when closing database connection");
+	            System.err.println(ErrorMsgs.DATABASE_CONNECTION_CLOSURE_FAILED.toString());
 	            e.printStackTrace();
 	            return ErrorMsgs.DATABASE_CONNECTION_CLOSURE_FAILED;
 	        }
 	    }
 	    else
 	    {
+            System.err.println(ErrorMsgs.EMPTY_DATABASE_CONNECTION.toString());
 	        return ErrorMsgs.EMPTY_DATABASE_CONNECTION;
 	    }
 	}
@@ -81,7 +82,7 @@ public class DatabaseConnection
 		}
 	    else
 		{
-	    	System.err.println("Cannot create tables.");
+	    	System.err.println( ErrorMsgs.DATABASE_TABLE_CREATION_FAILED.toString());
 	    	return ErrorMsgs.DATABASE_TABLE_CREATION_FAILED;
 		}
 	}
@@ -95,7 +96,7 @@ public class DatabaseConnection
 	    }
 	    else
 	    {
-	        System.err.println("Cannot create tables.");
+	        System.err.println(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED.toString());
 	        return ErrorMsgs.DATABASE_TABLE_DELETION_FAILED;
 	    }
 	}

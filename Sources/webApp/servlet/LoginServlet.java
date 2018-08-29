@@ -16,12 +16,15 @@ import webApp.database.DatabaseConnection;
 public class LoginServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
-	private int SESSION_DURATION = 60*60; //1h
+	public int SESSION_DURATION = 60*60; //1h
 	public static String SESSION_ATRIBUTE = "login";
        
-    public LoginServlet()
+    public DatabaseConnection databaseConnection;
+	public LoginServlet()
     {
         super();
+        databaseConnection = new DatabaseConnection();
+
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -29,14 +32,14 @@ public class LoginServlet extends HttpServlet
 		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		response.setContentType("text/html;charset=UTF-8");
 		
-		DatabaseConnection databaseConnection = new DatabaseConnection();
+		//DatabaseConnection databaseConnection = new DatabaseConnection();
 		
 		String login = request.getParameter("login");
-		String password = request.getParameter("password").toString();
+		String password = request.getParameter("password");//.toString();
 
 		boolean isPasswordCorrect = false;
 		

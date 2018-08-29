@@ -38,7 +38,7 @@ public class RegisteredUsersDatabaseTable {
 	    catch (SQLException e)
 	    {
 	        e.printStackTrace();
-	        System.err.println("Error when creating table.");
+	        System.err.println(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED.toString());
 	        return ErrorMsgs.DATABASE_TABLE_CREATION_FAILED;
 	    }
         System.out.println(tableName+" created");
@@ -54,9 +54,9 @@ public class RegisteredUsersDatabaseTable {
 		}
 		catch (SQLException e)
 		{
-			System.err.println("Error when user insertion.");
+			System.err.println(ErrorMsgs.INSERT_RECORD_FAILED.toString());
 			e.printStackTrace();
-			return ErrorMsgs.INSERT_USER_FAILED;
+			return ErrorMsgs.INSERT_RECORD_FAILED;
 		}
 		return ErrorMsgs.NO_ERROR;	
 	}
@@ -94,7 +94,7 @@ public class RegisteredUsersDatabaseTable {
 	    catch (SQLException e)
 	    {
 	        e.printStackTrace();
-	        System.err.println("Error when deletin table.");
+	        System.err.println(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED.toString());
 	        return ErrorMsgs.DATABASE_TABLE_DELETION_FAILED;
 	    }
 
@@ -172,7 +172,7 @@ public class RegisteredUsersDatabaseTable {
 		}
 		catch (SQLException e)
 		{
-			System.err.println("Updating password for user "+p_login+" failed.");
+			System.err.println(ErrorMsgs.UPDATE_USER_PASSWORD_FAILED.toString());
 			e.printStackTrace();
 			return ErrorMsgs.UPDATE_USER_PASSWORD_FAILED;
 		}
@@ -188,9 +188,9 @@ public class RegisteredUsersDatabaseTable {
 		}
 		catch (SQLException e)
 		{
-			System.err.println("Removing user "+p_login+" from database failed.");
+			System.err.println(ErrorMsgs.REMOVE_RECORD_FAILED.toString()+ " user "+p_login);
 			e.printStackTrace();
-			return ErrorMsgs.REMOVE_USER_FAILED;
+			return ErrorMsgs.REMOVE_RECORD_FAILED;
 		}
 		return ErrorMsgs.NO_ERROR;		
 	}
@@ -203,9 +203,9 @@ public class RegisteredUsersDatabaseTable {
 		} 
 		catch (SQLException e)
 		{
-			System.err.println("Removing all users from database failed.");
+			System.err.println(ErrorMsgs.REMOVE_ALL_RECORDS_FAILED.toString());
 			e.printStackTrace();
-			return ErrorMsgs.REMOVE_ALL_USERS_FAILED;
+			return ErrorMsgs.REMOVE_ALL_RECORDS_FAILED;
 		}
 		return ErrorMsgs.NO_ERROR;		
 	}

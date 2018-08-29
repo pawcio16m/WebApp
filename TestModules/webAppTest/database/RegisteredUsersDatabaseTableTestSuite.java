@@ -158,7 +158,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }        
-	    assertEquals(ErrorMsgs.INSERT_USER_FAILED, sut.insertUser(LOGIN, EMAIL_ADDRESS, PASSWORD));
+	    assertEquals(ErrorMsgs.INSERT_RECORD_FAILED, sut.insertUser(LOGIN, EMAIL_ADDRESS, PASSWORD));
 	}
 
 	@Test
@@ -284,7 +284,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }  
-	    assertEquals(ErrorMsgs.REMOVE_USER_FAILED, sut.removeRegisteredUser(LOGIN));
+	    assertEquals(ErrorMsgs.REMOVE_RECORD_FAILED, sut.removeRegisteredUser(LOGIN));
 	}
 
 	@Test
@@ -312,7 +312,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }          
-	    assertEquals(ErrorMsgs.REMOVE_ALL_USERS_FAILED, sut.removeAllRegisteredUsers());
+	    assertEquals(ErrorMsgs.REMOVE_ALL_RECORDS_FAILED, sut.removeAllRegisteredUsers());
 	}
 	
 	private void setExpectationForGettingRegisteredUser(String p_query) throws SQLException

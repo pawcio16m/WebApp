@@ -3,6 +3,8 @@ package webAppTest.database;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,10 +13,13 @@ import java.sql.Statement;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import webApp.backend.ErrorMsgs;
 import webApp.database.DatabaseConnection;
 import webApp.database.UsersDatabaseTable;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UsersDatabaseTableTestSuite
 {
     private final int USER_ID = 1;
@@ -54,10 +59,6 @@ public class UsersDatabaseTableTestSuite
     public void setUp() throws Exception
     {
         new DatabaseConnection();
-        statementMock = mock(Statement.class);
-        preparedStatementMock = mock(PreparedStatement.class);
-        resultSetMock = mock(ResultSet.class);
-        connectionMock = mock(Connection.class);
         
         sut = new UsersDatabaseTable(statementMock);
     }
@@ -148,7 +149,7 @@ public class UsersDatabaseTableTestSuite
         {
             doThrow(new SQLException()).when(statementMock).execute(insertUser);
             
-            assertEquals(ErrorMsgs.INSERT_USER_FAILED, sut.insertUser(LOGIN));
+            assertEquals(ErrorMsgs.INSERT_RECORD_FAILED, sut.insertUser(LOGIN));
         }
         catch (SQLException e)
         {
@@ -256,7 +257,7 @@ public class UsersDatabaseTableTestSuite
         {
             doThrow(new SQLException()).when(statementMock).execute(sut.removeAllRegisteredUser);
             
-            assertEquals(ErrorMsgs.REMOVE_ALL_USERS_FAILED, sut.removeAllUsers());
+            assertEquals(ErrorMsgs.REMOVE_ALL_RECORDS_FAILED, sut.removeAllUsers());
         }
         catch (SQLException e)
         {
