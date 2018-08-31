@@ -84,6 +84,7 @@ public class ErrorHandlerTestSuite
     public void testToString()
     {
         sut.addError(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED);
+        sut.addError(ErrorMsgs.NO_ERROR);
         
         assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED.toString()+"\n", sut.toString());
     }
@@ -92,6 +93,7 @@ public class ErrorHandlerTestSuite
     public void testToHtml()
     {
         sut.addError(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED);
+        sut.addError(ErrorMsgs.NO_ERROR);
         
         assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED.toString()+"<br>", sut.toHtml());
     }

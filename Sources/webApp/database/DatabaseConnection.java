@@ -5,17 +5,21 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import webApp.backend.ErrorMsgs;
 
-public class DatabaseConnection
+public final class DatabaseConnection
 {
     public static final String DRIVER = "org.sqlite.JDBC";
     public static final String DB_URL = "jdbc:sqlite:application.db";
-    public UsersDatabaseTable usersTable;
-    public RegisteredUsersDatabaseTable registeredUsersTable;
+    public static UsersDatabaseTable usersTable;
+    public static RegisteredUsersDatabaseTable registeredUsersTable;
 
-	public DatabaseConnection()
+	private DatabaseConnection()
+	{}
+	
+	public static void initializeDatabase()
 	{
 		try
 		{
+		    System.out.println("Database driver installed.");
 			Class.forName(DatabaseConnection.DRIVER);
 	    } 
 		catch (ClassNotFoundException e)
@@ -25,6 +29,7 @@ public class DatabaseConnection
 	    }
 		try 
 		{
+	        System.out.println("Database table initialized.");
 		    registeredUsersTable = new RegisteredUsersDatabaseTable(DatabaseConnection.getDatabaseConnection().createStatement());
 		    usersTable = new UsersDatabaseTable(DatabaseConnection.getDatabaseConnection().createStatement());
 		}
@@ -73,7 +78,7 @@ public class DatabaseConnection
 	    }
 	}
 
-	public ErrorMsgs createAllTables()
+	public static ErrorMsgs createAllTables()
 	{
 	    if (ErrorMsgs.NO_ERROR == registeredUsersTable.createRegisteredUsersTable() &&
 	        ErrorMsgs.NO_ERROR == usersTable.createUsersTable())
@@ -87,7 +92,7 @@ public class DatabaseConnection
 		}
 	}
 	
-	public ErrorMsgs deleteAllTables() 
+	public static ErrorMsgs deleteAllTables() 
 	{
 	    if (ErrorMsgs.NO_ERROR == registeredUsersTable.deleteTable() &&
 	        ErrorMsgs.NO_ERROR == usersTable.deleteTable())
@@ -100,4 +105,14 @@ public class DatabaseConnection
 	        return ErrorMsgs.DATABASE_TABLE_DELETION_FAILED;
 	    }
 	}
+	
+	public static UsersDatabaseTable getUsersDatabaseTable()
+	{
+	    return usersTable;
+	}
+
+    public static RegisteredUsersDatabaseTable getRegisteredUsersDatabaseTable()
+    {
+        return registeredUsersTable;
+    }
 }

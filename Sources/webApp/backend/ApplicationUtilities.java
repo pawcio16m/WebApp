@@ -15,7 +15,7 @@ public class ApplicationUtilities
     {
         if (p_email == null)
         {
-            return ErrorMsgs.EMAIL_INCORRECT;
+            return ErrorMsgs.EMAIL_INVALID;
         }
         
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
@@ -30,7 +30,7 @@ public class ApplicationUtilities
             return ErrorMsgs.NO_ERROR;
             
         }
-        return ErrorMsgs.EMAIL_INCORRECT;
+        return ErrorMsgs.EMAIL_INVALID;
     }
     
     public static List<ErrorMsgs> validatePassword(String p_password)

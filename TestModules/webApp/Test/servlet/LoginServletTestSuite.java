@@ -50,8 +50,8 @@ public class LoginServletTestSuite
     @Before
     public void setUp() throws Exception
     {
-        databaseMock = new DatabaseConnection();
-        databaseMock.registeredUsersTable = resgisteredUsersDatabaseMock;
+//        databaseMock = new DatabaseConnection();
+//        databaseMock.registeredUsersTable = resgisteredUsersDatabaseMock;
         sut = new LoginServlet();
         sut.databaseConnection =databaseMock;
     }

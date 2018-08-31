@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import = "webApp.backend.RegisteredUser" %>
+    pageEncoding="ISO-8859-1" import = "webApp.backend.ApplicationUtilities" %>
 <%
 String user = null;
 if	(session.getAttribute("login") == null){
@@ -17,7 +17,7 @@ else {
 			if (cookie.getName().equals("login")) login = cookie.getValue();
 		}
 		out.print("Hello "+login+", you're logged in");
-		if (RegisteredUser.isAdminMode(login)) {
+		if (ApplicationUtilities.isAdminMode(login)) {
 %>
 		<%@include  file="/html/adminView.html" %>
 <%

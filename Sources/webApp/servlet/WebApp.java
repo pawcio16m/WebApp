@@ -32,7 +32,7 @@ public class WebApp extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-		DatabaseConnection databaseConnection = new DatabaseConnection();
+		//DatabaseConnection databaseConnection = new DatabaseConnection();
 		
 		if (request.getParameter(LOGIN_PARAMETER) != null) {
 			response.sendRedirect("login.jsp");	
@@ -45,11 +45,11 @@ public class WebApp extends HttpServlet {
 		    rd.forward(request, response);
 		}
 		else if (request.getParameter(PRINT_USERS_PARAMETER) != null) {
-			String registeredUserTable = databaseConnection.registeredUsersTable.toHtml();
-			String usersTable = databaseConnection.usersTable.toHtml();
+			String registeredUserTable = DatabaseConnection.getRegisteredUsersDatabaseTable().toHtml();
+			String usersTable = DatabaseConnection.getUsersDatabaseTable().toHtml();
 			
-			System.out.print(databaseConnection.registeredUsersTable.toString());
-			System.out.print(databaseConnection.usersTable.toString());
+			System.out.print(DatabaseConnection.getRegisteredUsersDatabaseTable().toString());
+			System.out.print(DatabaseConnection.getUsersDatabaseTable().toString());
 	        
 	        request.setAttribute("registeredUserTable", registeredUserTable);
 	        request.setAttribute("userTable", usersTable);
@@ -57,8 +57,8 @@ public class WebApp extends HttpServlet {
 	        request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 		else if (request.getParameter(DELETE_USERS_PARAMETER) != null) {
-			if (ErrorMsgs.NO_ERROR == databaseConnection.registeredUsersTable.removeAllRegisteredUsers() &&
-			    ErrorMsgs.NO_ERROR == databaseConnection.usersTable.removeAllUsers()) {
+			if (ErrorMsgs.NO_ERROR == DatabaseConnection.getRegisteredUsersDatabaseTable().removeAllRegisteredUsers() &&
+			    ErrorMsgs.NO_ERROR == DatabaseConnection.getUsersDatabaseTable().removeAllUsers()) {
 				System.out.println("All users deleted.");
 				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}

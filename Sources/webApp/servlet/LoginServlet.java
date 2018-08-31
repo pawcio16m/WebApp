@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet
 	public LoginServlet()
     {
         super();
-        databaseConnection = new DatabaseConnection();
+//        databaseConnection = new DatabaseConnection();
 
     }
 
@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet
 		
 		try
 		{
-			isPasswordCorrect = databaseConnection.registeredUsersTable.getRegisteredUser(login).isPasswordCorrect(password);
+			isPasswordCorrect = DatabaseConnection.getRegisteredUsersDatabaseTable().getRegisteredUser(login).isPasswordCorrect(password);
 		}
 		catch (NullPointerException e)
 		{

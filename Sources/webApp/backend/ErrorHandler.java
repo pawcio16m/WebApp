@@ -50,7 +50,10 @@ public class ErrorHandler
         String result = new String();
         for (ErrorMsgs error : reportedErrors)
         {
-            result = result.concat(error.toString()+"\n");
+            if (ErrorMsgs.NO_ERROR != error)
+            {
+                result = result.concat(error.toString()+"\n");
+            }
         }
         return result;        
     }
@@ -60,10 +63,11 @@ public class ErrorHandler
         String result = new String();
         for (ErrorMsgs error : reportedErrors)
         {
-            result = result.concat(error.toString()+"<br>");
+            if (ErrorMsgs.NO_ERROR != error)
+            {
+                result = result.concat(error.toString()+"<br>");
+            }
         }
         return result;        
     }
-    
-
 }

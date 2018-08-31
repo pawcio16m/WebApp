@@ -58,7 +58,8 @@ public class UsersDatabaseTableTestSuite
     @Before
     public void setUp() throws Exception
     {
-        new DatabaseConnection();
+        DatabaseConnection.initializeDatabase();
+        DatabaseConnection.createAllTables();
         
         sut = new UsersDatabaseTable(statementMock);
     }

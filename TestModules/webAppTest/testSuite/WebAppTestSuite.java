@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import webApp.Test.servlet.LoginServletTestSuite;
+import webAppTest.backend.ApplicationUtilitiesTestSuite;
 import webAppTest.backend.ErrorHandlerTestSuite;
 import webAppTest.backend.RegisteredUserTestSuite;
 import webAppTest.backend.UserTestSuite;
@@ -19,7 +20,8 @@ import webAppTest.database.UsersDatabaseTableTestSuite;
     DatabaseConnectionTestSuite.class,
     UsersDatabaseTableTestSuite.class,
     LoginServletTestSuite.class,
-    ErrorHandlerTestSuite.class})
+    ErrorHandlerTestSuite.class,
+    ApplicationUtilitiesTestSuite.class})
 public class WebAppTestSuite {
 
 }

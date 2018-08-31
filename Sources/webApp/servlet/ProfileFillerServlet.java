@@ -28,7 +28,7 @@ public class ProfileFillerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    response.setContentType("text/html;charset=UTF-8");
 	    
-        DatabaseConnection databaseConnection = new DatabaseConnection();
+//        DatabaseConnection databaseConnection = new DatabaseConnection();
         
         ErrorHandler errorHandler = new ErrorHandler();
         String login =  LoginServlet.getLoginNameFromCookies(request);
@@ -43,16 +43,15 @@ public class ProfileFillerServlet extends HttpServlet {
         
         if (login != null)
         {
-            errorHandler.addError(databaseConnection.usersTable.updateUserProfile(login, firstName, lastName, age, phoneNumber, city, preferedActivity));
+            errorHandler.addError(DatabaseConnection.getUsersDatabaseTable().updateUserProfile(login, firstName, lastName, age, phoneNumber, city, preferedActivity));
         }
         
-        //TODO fix it maybe create separate function high complexity
         if ( ! (oldPassword.isEmpty() || newPassword.isEmpty()))
         {
             errorHandler.addErrors(ApplicationUtilities.validatePassword(newPassword));            
-            if (true == databaseConnection.registeredUsersTable.getRegisteredUser(login).isPasswordCorrect(oldPassword))
+            if (true == DatabaseConnection.getRegisteredUsersDatabaseTable().getRegisteredUser(login).isPasswordCorrect(oldPassword))
             {
-                errorHandler.addError(databaseConnection.registeredUsersTable.updatePassword(login, newPassword));
+                errorHandler.addError(DatabaseConnection.getRegisteredUsersDatabaseTable().updatePassword(login, newPassword));
             }
             else
             {

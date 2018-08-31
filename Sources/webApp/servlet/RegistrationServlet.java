@@ -32,7 +32,7 @@ public class RegistrationServlet extends HttpServlet
 	{
 		response.setContentType("text/html;charset=UTF-8");
 	
-		DatabaseConnection databaseConnection = new DatabaseConnection();
+//		DatabaseConnection databaseConnection = new DatabaseConnection();
 		
 		ErrorHandler errorHandler = new ErrorHandler();
 		
@@ -48,8 +48,8 @@ public class RegistrationServlet extends HttpServlet
 		
 		if (false == errorHandler.hasErrorReported())
 		{
-		    errorHandler.addError(databaseConnection.registeredUsersTable.insertUser(login, emailAddress, password));
-		    errorHandler.addError(databaseConnection.usersTable.insertUser(login));
+		    errorHandler.addError(DatabaseConnection.getRegisteredUsersDatabaseTable().insertUser(login, emailAddress, password));
+		    errorHandler.addError(DatabaseConnection.getUsersDatabaseTable().insertUser(login));
 			
 		    if (false == errorHandler.hasErrorReported())
 		    {

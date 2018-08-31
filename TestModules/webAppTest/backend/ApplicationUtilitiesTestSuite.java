@@ -70,8 +70,8 @@ public class ApplicationUtilitiesTestSuite
     {
         String password = "M1aaaaaa";
             
-        assertEquals(ApplicationUtilities.validatePassword(password), ErrorMsgs.NO_ERROR);
-        assertEquals(ApplicationUtilities.validatePassword(PASSWORD), ErrorMsgs.NO_ERROR);       
+        assertEquals(ApplicationUtilities.validatePassword(password).get(0), ErrorMsgs.NO_ERROR);
+        assertEquals(ApplicationUtilities.validatePassword(PASSWORD).get(0), ErrorMsgs.NO_ERROR);       
     }
     
     @Test
@@ -80,56 +80,57 @@ public class ApplicationUtilitiesTestSuite
         List<ErrorMsgs> errorMsgs = new LinkedList<ErrorMsgs>();
  
         String password = "aa";
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_UPPER_CASE);
         errorMsgs.add(ErrorMsgs.PASSWORD_TOO_SHORT);
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_NUMBER);
+        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_UPPER_CASE);
+        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_NUMBER); 
+        errorMsgs.add(ErrorMsgs.NO_ERROR);
         assertEquals(ApplicationUtilities.validatePassword(password), errorMsgs);
         errorMsgs.clear();
             
         password = "Aa1";
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_UPPER_CASE);
         errorMsgs.add(ErrorMsgs.PASSWORD_TOO_SHORT);
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_NUMBER);
+        errorMsgs.add(ErrorMsgs.NO_ERROR);
         assertEquals(ApplicationUtilities.validatePassword(password), errorMsgs);
         errorMsgs.clear();
  
         password = "onlylowercase";
         errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_UPPER_CASE);
-        errorMsgs.add(ErrorMsgs.PASSWORD_TOO_SHORT);
         errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_NUMBER);
+        errorMsgs.add(ErrorMsgs.NO_ERROR);
         assertEquals(ApplicationUtilities.validatePassword(password), errorMsgs);
         errorMsgs.clear();
         
         password = "ONLYUPPERCASE";
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_UPPER_CASE);
-        errorMsgs.add(ErrorMsgs.PASSWORD_TOO_SHORT);
+        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_LOWER_CASE);
         errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_NUMBER);
+        errorMsgs.add(ErrorMsgs.NO_ERROR);
         assertEquals(ApplicationUtilities.validatePassword(password), errorMsgs);
         errorMsgs.clear();
         
         password = "1234567890";
         errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_UPPER_CASE);
-        errorMsgs.add(ErrorMsgs.PASSWORD_TOO_SHORT);
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_NUMBER);
+        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_LOWER_CASE);
+        errorMsgs.add(ErrorMsgs.NO_ERROR);
         assertEquals(ApplicationUtilities.validatePassword(password), errorMsgs);
-
+        errorMsgs.clear();
+        
         password = "alllowercaseOneupper";
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_UPPER_CASE);
-        errorMsgs.add(ErrorMsgs.PASSWORD_TOO_SHORT);
         errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_NUMBER);
+        errorMsgs.add(ErrorMsgs.NO_ERROR);
         assertEquals(ApplicationUtilities.validatePassword(password), errorMsgs);
-    
+        errorMsgs.clear();
+        
         password = "onenumber1alllowercase";
         errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_UPPER_CASE);
-        errorMsgs.add(ErrorMsgs.PASSWORD_TOO_SHORT);
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_NUMBER);
+        errorMsgs.add(ErrorMsgs.NO_ERROR);
         assertEquals(ApplicationUtilities.validatePassword(password), errorMsgs);
+        errorMsgs.clear();
         
         password = "ONENUMBER1ALLUPPERCASE";
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_UPPER_CASE);
-        errorMsgs.add(ErrorMsgs.PASSWORD_TOO_SHORT);
-        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_NUMBER);
+        errorMsgs.add(ErrorMsgs.PASSWORD_HAS_NO_LOWER_CASE);
+        errorMsgs.add(ErrorMsgs.NO_ERROR);
         assertEquals(ApplicationUtilities.validatePassword(password), errorMsgs);
+        errorMsgs.clear();
     }   
 
 }

@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import java.sql.Connection;
-import java.sql.SQLException;
 import webApp.backend.ErrorMsgs;
 import webApp.database.DatabaseConnection;
 import webApp.database.RegisteredUsersDatabaseTable;
@@ -17,8 +16,6 @@ import webApp.database.UsersDatabaseTable;
 @RunWith(MockitoJUnitRunner.class)
 public class DatabaseConnectionTestSuite
 {
-    private DatabaseConnection sut; 
-    
     @Mock 
     RegisteredUsersDatabaseTable registeredUsersDatabaseMock;
     
@@ -31,10 +28,9 @@ public class DatabaseConnectionTestSuite
     @Before
     public void setUp() throws Exception
     {    
-        sut = new DatabaseConnection();
-
-        sut.registeredUsersTable = registeredUsersDatabaseMock;
-        sut.usersTable = usersDatabaseMock;
+        DatabaseConnection.initializeDatabase();
+        DatabaseConnection.registeredUsersTable = registeredUsersDatabaseMock;
+        DatabaseConnection.usersTable = usersDatabaseMock;
     }
 
     @Test
@@ -49,7 +45,7 @@ public class DatabaseConnectionTestSuite
         doReturn(ErrorMsgs.NO_ERROR).when(registeredUsersDatabaseMock).createRegisteredUsersTable();
         doReturn(ErrorMsgs.NO_ERROR).when(usersDatabaseMock).createUsersTable();
         
-        assertEquals(ErrorMsgs.NO_ERROR, sut.createAllTables());
+        assertEquals(ErrorMsgs.NO_ERROR, DatabaseConnection.createAllTables());
     }
     
     @Test
@@ -58,7 +54,7 @@ public class DatabaseConnectionTestSuite
         doReturn(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED).when(registeredUsersDatabaseMock).createRegisteredUsersTable();
         doReturn(ErrorMsgs.NO_ERROR).when(usersDatabaseMock).createUsersTable();
      
-        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.createAllTables());
+        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, DatabaseConnection.createAllTables());
     }
     
     @Test
@@ -67,7 +63,7 @@ public class DatabaseConnectionTestSuite
         doReturn(ErrorMsgs.NO_ERROR).when(registeredUsersDatabaseMock).createRegisteredUsersTable();
         doReturn(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED).when(usersDatabaseMock).createUsersTable();
      
-        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.createAllTables());
+        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, DatabaseConnection.createAllTables());
     }
     
     @Test
@@ -76,7 +72,7 @@ public class DatabaseConnectionTestSuite
         doReturn(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED).when(registeredUsersDatabaseMock).createRegisteredUsersTable();
         doReturn(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED).when(usersDatabaseMock).createUsersTable();
      
-        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.createAllTables());
+        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, DatabaseConnection.createAllTables());
     }
     
     @Test
@@ -85,7 +81,7 @@ public class DatabaseConnectionTestSuite
         doReturn(ErrorMsgs.NO_ERROR).when(registeredUsersDatabaseMock).deleteTable();
         doReturn(ErrorMsgs.NO_ERROR).when(usersDatabaseMock).deleteTable();
         
-        assertEquals(ErrorMsgs.NO_ERROR, sut.deleteAllTables());
+        assertEquals(ErrorMsgs.NO_ERROR, DatabaseConnection.deleteAllTables());
     }
     
     @Test
@@ -94,7 +90,7 @@ public class DatabaseConnectionTestSuite
         doReturn(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED).when(registeredUsersDatabaseMock).deleteTable();
         doReturn(ErrorMsgs.NO_ERROR).when(usersDatabaseMock).deleteTable();
      
-        assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, sut.deleteAllTables());
+        assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, DatabaseConnection.deleteAllTables());
     }
     
     @Test
@@ -103,7 +99,7 @@ public class DatabaseConnectionTestSuite
         doReturn(ErrorMsgs.NO_ERROR).when(registeredUsersDatabaseMock).deleteTable();
         doReturn(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED).when(usersDatabaseMock).deleteTable();
      
-        assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, sut.deleteAllTables());
+        assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, DatabaseConnection.deleteAllTables());
     }
     
     @Test
@@ -112,7 +108,7 @@ public class DatabaseConnectionTestSuite
         doReturn(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED).when(registeredUsersDatabaseMock).deleteTable();
         doReturn(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED).when(usersDatabaseMock).deleteTable();
      
-        assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, sut.deleteAllTables());
+        assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, DatabaseConnection.deleteAllTables());
     }
 
 }

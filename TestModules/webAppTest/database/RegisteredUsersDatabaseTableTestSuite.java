@@ -50,7 +50,9 @@ public class RegisteredUsersDatabaseTableTestSuite
 	@Before
 	public void setUp() throws Exception
 	{
-		new DatabaseConnection();
+        DatabaseConnection.initializeDatabase();
+        DatabaseConnection.createAllTables();
+//		DatabaseConnection.createAllTables();
 		
 		sut = new RegisteredUsersDatabaseTable(statementMock);
 	}
