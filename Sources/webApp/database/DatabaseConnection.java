@@ -80,7 +80,7 @@ public final class DatabaseConnection
 
 	public static ErrorMsgs createAllTables()
 	{
-	    if (ErrorMsgs.NO_ERROR == registeredUsersTable.createRegisteredUsersTable() &&
+	    if (ErrorMsgs.NO_ERROR == registeredUsersTable.createDatabaseTable() &&
 	        ErrorMsgs.NO_ERROR == usersTable.createUsersTable())
 	    {			
 			return ErrorMsgs.NO_ERROR;			
@@ -94,7 +94,7 @@ public final class DatabaseConnection
 	
 	public static ErrorMsgs deleteAllTables() 
 	{
-	    if (ErrorMsgs.NO_ERROR == registeredUsersTable.deleteTable() &&
+	    if (ErrorMsgs.NO_ERROR == registeredUsersTable.deleteDatabaseTable() &&
 	        ErrorMsgs.NO_ERROR == usersTable.deleteTable())
 	    {           
 	        return ErrorMsgs.NO_ERROR;          

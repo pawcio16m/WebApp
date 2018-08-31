@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import webApp.backend.ApplicationUtilities;
 import webApp.backend.ErrorHandler;
 import webApp.backend.ErrorMsgs;
+import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
 
 @WebServlet("/jsp/ProfileFillerServlet")
@@ -44,8 +45,9 @@ public class ProfileFillerServlet extends HttpServlet {
         
         if ( ! (oldPassword.isEmpty() || newPassword.isEmpty()))
         {
+            int user_id =  DatabaseConnection.getRegisteredUsersDatabaseTable().getUserIdForLogin(login);
             errorHandler.addErrors(ApplicationUtilities.validatePassword(newPassword));            
-            if (true == DatabaseConnection.getRegisteredUsersDatabaseTable().getRegisteredUser(login).isPasswordCorrect(oldPassword))
+            if (true == ((RegisteredUser) DatabaseConnection.getRegisteredUsersDatabaseTable().getSpecificRecord(user_id)).isPasswordCorrect(oldPassword))
             {
                 errorHandler.addError(DatabaseConnection.getRegisteredUsersDatabaseTable().updatePassword(login, newPassword));
             }

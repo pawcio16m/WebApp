@@ -56,7 +56,7 @@ public class WebApp extends HttpServlet {
 	        request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 		else if (request.getParameter(DELETE_USERS_PARAMETER) != null) {
-			if (ErrorMsgs.NO_ERROR == DatabaseConnection.getRegisteredUsersDatabaseTable().removeAllRegisteredUsers() &&
+			if (ErrorMsgs.NO_ERROR == DatabaseConnection.getRegisteredUsersDatabaseTable().removeAllRecords() &&
 			    ErrorMsgs.NO_ERROR == DatabaseConnection.getUsersDatabaseTable().removeAllUsers()) {
 				System.out.println("All users deleted.");
 				request.getRequestDispatcher("home.jsp").forward(request, response);

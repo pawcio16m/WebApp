@@ -66,7 +66,7 @@ public class LoginServletTestSuite
     {
         when(requestMock.getAttribute("login")).thenReturn(LOGIN);
         when(requestMock.getAttribute("password")).thenReturn(PASSWORD);
-        when(resgisteredUsersDatabaseMock.getRegisteredUser(LOGIN)).thenReturn(REGISTERED_USER).thenCallRealMethod();
+        when(resgisteredUsersDatabaseMock.getSpecificRecord(USER_ID)).thenReturn(REGISTERED_USER).thenCallRealMethod();
         when(requestMock.getSession()).thenReturn(sessionMock);
         
         

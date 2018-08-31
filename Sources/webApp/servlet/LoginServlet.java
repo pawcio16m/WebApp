@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import webApp.backend.ApplicationUtilities;
+import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
 
 @WebServlet("/jsp/LoginServlet")
@@ -40,7 +41,8 @@ public class LoginServlet extends HttpServlet
 		
 		try
 		{
-			isPasswordCorrect = DatabaseConnection.getRegisteredUsersDatabaseTable().getRegisteredUser(login).isPasswordCorrect(password);
+		    int user_id =  DatabaseConnection.getRegisteredUsersDatabaseTable().getUserIdForLogin(login);
+		    isPasswordCorrect = ((RegisteredUser) DatabaseConnection.getRegisteredUsersDatabaseTable().getSpecificRecord(user_id)).isPasswordCorrect(password);
 		}
 		catch (NullPointerException e)
 		{

@@ -29,9 +29,9 @@ public class RegisteredUsersDatabaseTableTestSuite
 	private final RegisteredUser REGISTERED_USER = new RegisteredUser(USER_ID, LOGIN, EMAIL_ADDRESS, PASSWORD);
 	
 	private final String insertUser = "insert into registered_users values (NULL, "+LOGIN+", "+EMAIL_ADDRESS+", "+PASSWORD+");";
-	private final String selectUserWithGivenLogin = "SELECT * FROM registered_users WHERE login = '"+LOGIN+"'";
+	private final String selectUserWithGivenLogin = "SELECT * FROM registered_users WHERE user_id = "+USER_ID;
 	private final String updatePassword = "UPDATE registered_users SET password = '"+UPDATED_PASSWORD+"' WHERE login = '"+LOGIN+"'";
-	private final String removeRegisteredUser = "DELETE FROM registered_users WHERE login = '"+LOGIN+"'";
+	private final String removeRegisteredUser = "DELETE FROM registered_users WHERE user_id = "+USER_ID;
 	   
     private RegisteredUsersDatabaseTable sut; 
 
@@ -65,7 +65,7 @@ public class RegisteredUsersDatabaseTableTestSuite
     @Test
     public void testCreateUsersTable()
     {
-        assertEquals(ErrorMsgs.NO_ERROR, sut.createRegisteredUsersTable());
+        assertEquals(ErrorMsgs.NO_ERROR, sut.createDatabaseTable());
     }
     
     @Test
@@ -75,7 +75,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             doThrow(new SQLException()).when(statementMock).execute(sut.createRegisteredUsersTable);
             
-            assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.createRegisteredUsersTable());
+            assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.createDatabaseTable());
         }
         catch (SQLException e)
         {
@@ -86,7 +86,7 @@ public class RegisteredUsersDatabaseTableTestSuite
     @Test
     public void testDeleteTable()
     {
-        assertEquals(ErrorMsgs.NO_ERROR, sut.deleteTable());
+        assertEquals(ErrorMsgs.NO_ERROR, sut.deleteDatabaseTable());
     }
     
     @Test
@@ -96,7 +96,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             doThrow(new SQLException()).when(statementMock).execute(sut.deleteRegisteredUsersTable);
             
-            assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, sut.deleteTable());
+            assertEquals(ErrorMsgs.DATABASE_TABLE_DELETION_FAILED, sut.deleteDatabaseTable());
         }
         catch (SQLException e)
         {
@@ -173,7 +173,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }   
-		assertEquals(null, sut.getRegisteredUser(LOGIN));
+		assertEquals(null, sut.getSpecificRecord(USER_ID));
 	}
 	
 	@Test
@@ -187,7 +187,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }  
-	    assertEquals(REGISTERED_USER.toString(), sut.getRegisteredUser(LOGIN).toString());
+	    assertEquals(REGISTERED_USER.toString(), sut.getSpecificRecord(USER_ID).toString());
 	}
 	
 	@Test
@@ -201,7 +201,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }  
-	    assertEquals(null, sut.getRegisteredUser(LOGIN));   
+	    assertEquals(null, sut.getSpecificRecord(USER_ID));   
 	}
 	
 	@Test
@@ -215,7 +215,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }  				
-	    assertEquals(REGISTERED_USER.toString(), sut.getUsers().get(0).toString());
+	    assertEquals(REGISTERED_USER.toString(), sut.getAllRecords().get(0).toString());
 	}
 	
 	@Test
@@ -229,7 +229,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }       
-	    assertEquals(null, sut.getUsers());
+	    assertEquals(null, sut.getAllRecords());
 	}
 	
 	@Test
@@ -271,7 +271,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }    
-        assertEquals(ErrorMsgs.NO_ERROR, sut.removeRegisteredUser(LOGIN));
+        assertEquals(ErrorMsgs.NO_ERROR, sut.removeRecord(USER_ID));
 	}
 	
 	@Test
@@ -285,7 +285,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }  
-	    assertEquals(ErrorMsgs.REMOVE_RECORD_FAILED, sut.removeRegisteredUser(LOGIN));
+	    assertEquals(ErrorMsgs.REMOVE_RECORD_FAILED, sut.removeRecord(USER_ID));
 	}
 
 	@Test
@@ -299,7 +299,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }  
-        assertEquals(ErrorMsgs.NO_ERROR, sut.removeAllRegisteredUsers());
+        assertEquals(ErrorMsgs.NO_ERROR, sut.removeAllRecords());
 	}
 	
 	@Test
@@ -313,7 +313,7 @@ public class RegisteredUsersDatabaseTableTestSuite
         {
             fail("Unexpected exception.");
         }          
-	    assertEquals(ErrorMsgs.REMOVE_ALL_RECORDS_FAILED, sut.removeAllRegisteredUsers());
+	    assertEquals(ErrorMsgs.REMOVE_ALL_RECORDS_FAILED, sut.removeAllRecords());
 	}
 	
 	private void setExpectationForGettingRegisteredUser(String p_query) throws SQLException
