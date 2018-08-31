@@ -5,10 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-
 import webApp.backend.ApplicationUtilities;
 import webApp.backend.ErrorMsgs;
-import webApp.backend.RegisteredUser;
 import webApp.backend.User;
 
 public class UsersDatabaseTable {

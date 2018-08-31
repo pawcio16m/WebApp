@@ -16,7 +16,6 @@ public class RegisteredUserTestSuite
 	private final boolean PASSWORD_NOT_CORRECT = false;
 	private final String USER_TO_STRING = "[1] myLogin - myLogin@at.com";
 	private final String USER_TO_HTML = "<td>1</td><td>myLogin</td><td>myLogin@at.com</td>";
-	private final String ADMIN_LOGIN = "pawcio16m";
 	
 	RegisteredUser sut;
 

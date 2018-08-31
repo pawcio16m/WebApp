@@ -32,7 +32,6 @@ public class WebApp extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-		//DatabaseConnection databaseConnection = new DatabaseConnection();
 		
 		if (request.getParameter(LOGIN_PARAMETER) != null) {
 			response.sendRedirect("login.jsp");	

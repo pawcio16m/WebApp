@@ -52,7 +52,6 @@ public class RegisteredUsersDatabaseTableTestSuite
 	{
         DatabaseConnection.initializeDatabase();
         DatabaseConnection.createAllTables();
-//		DatabaseConnection.createAllTables();
 		
 		sut = new RegisteredUsersDatabaseTable(statementMock);
 	}

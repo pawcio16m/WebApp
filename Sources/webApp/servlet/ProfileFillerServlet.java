@@ -6,11 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import webApp.backend.ApplicationUtilities;
 import webApp.backend.ErrorHandler;
 import webApp.backend.ErrorMsgs;
-import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
 
 @WebServlet("/jsp/ProfileFillerServlet")
@@ -27,8 +25,6 @@ public class ProfileFillerServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    response.setContentType("text/html;charset=UTF-8");
-	    
-//        DatabaseConnection databaseConnection = new DatabaseConnection();
         
         ErrorHandler errorHandler = new ErrorHandler();
         String login =  LoginServlet.getLoginNameFromCookies(request);

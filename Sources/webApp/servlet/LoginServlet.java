@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import webApp.backend.ApplicationUtilities;
-import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
 
 @WebServlet("/jsp/LoginServlet")
@@ -24,8 +22,6 @@ public class LoginServlet extends HttpServlet
 	public LoginServlet()
     {
         super();
-//        databaseConnection = new DatabaseConnection();
-
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -37,10 +33,8 @@ public class LoginServlet extends HttpServlet
 	{
 		response.setContentType("text/html;charset=UTF-8");
 		
-		//DatabaseConnection databaseConnection = new DatabaseConnection();
-		
 		String login = request.getParameter("login");
-		String password = request.getParameter("password");//.toString();
+		String password = request.getParameter("password");
 
 		boolean isPasswordCorrect = false;
 		
