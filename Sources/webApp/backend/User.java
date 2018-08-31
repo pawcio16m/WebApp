@@ -1,6 +1,6 @@
 package webApp.backend;
 
-public class User {
+public class User implements TableRecordType {
 	private int userId;
 	private String login;
 	private String firstName;
@@ -41,6 +41,7 @@ public class User {
         return "["+userId+"] | "+login+" | "+firstName+" "+lastName+" | "+age+" | "+phoneNumber+" | "+city+" | "+preferedActivity+" |";
     }
     
+	@Override
     public String toHtml()
     {
         return "<td>"+userId+"</td><td>"+login+"</td><td>"+firstName+" "+lastName+"</td><td>"+age+"</td><td>"

@@ -14,6 +14,12 @@ public enum ErrorMsgs
     INSERT_RECORD_FAILED("Failure when inserting user to database."),
     //ValidationError
     PHONE_NUMBER_INVALID("Phone number contains not allowed characters (should contain only digit)."),
+    EMAIL_INCORRECT("User password is incorrect."),
+    EMAIL_INVALID("Email is invalid."),
+    PASSWORD_TOO_SHORT("Password contains less then 8 characters."),
+    PASSWORD_HAS_NO_UPPER_CASE("Password doesn't contain at least one upper case."),
+    PASSWORD_HAS_NO_LOWER_CASE("Password doesn't contain at least one lower case."),
+    PASSWORD_HAS_NO_NUMBER("Password doesn't contain at least one number."),
     //RegestrationTable
     UPDATE_USER_PASSWORD_FAILED("Failure when updating password for user.");
 

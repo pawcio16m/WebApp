@@ -5,11 +5,21 @@ import java.util.List;
 
 public class ErrorHandler
 {
-    private List<ErrorMsgs> reportedErrors = new LinkedList<ErrorMsgs>();
+    private List<ErrorMsgs> reportedErrors;
+  
+    public ErrorHandler()
+    {
+        this.reportedErrors = new LinkedList<ErrorMsgs>();
+    }    
     
     public void addError(ErrorMsgs p_error)
     {
         reportedErrors.add(p_error);
+    }
+    
+    public void addErrors(List<ErrorMsgs> p_errors)
+    {
+        reportedErrors.addAll(p_errors);
     }
     
     public List<ErrorMsgs> getReportedErrors()

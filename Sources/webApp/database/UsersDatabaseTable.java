@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+
+import webApp.backend.ApplicationUtilities;
 import webApp.backend.ErrorMsgs;
 import webApp.backend.RegisteredUser;
 import webApp.backend.User;
@@ -22,7 +24,7 @@ public class UsersDatabaseTable {
         + "preferedActivity text)";
 	public final String deleteUsersTable = "DROP TABLE "+tableName;
 	public final String selectAllUSers = "SELECT * FROM "+tableName;
-    public final String removeAllRegisteredUser = "DELETE FROM "+tableName+" WHERE login != '"+RegisteredUser.adminLogin+"'";
+    public final String removeAllRegisteredUser = "DELETE FROM "+tableName+" WHERE login != '"+ApplicationUtilities.ADMIN_LOGIN+"'";
 	public final String tableHeader = "[UserId] | Login\t | Name\t |  Age\t | PhoneNumber\t | City\t | Prefered Activity\n";
 	public final String tableHtmlHeader = "<div><table border=\"1\"><tr><th>UserId</th><th>login</th><th>Name</th><th>Age</th>"
             + "<th>Phone Number</th><th>City</th><th>Prefered Activity</th>"; 

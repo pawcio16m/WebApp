@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import webApp.backend.ApplicationUtilities;
+import webApp.backend.ErrorHandler;
 import webApp.backend.ErrorMsgs;
 import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
@@ -28,7 +30,7 @@ public class ProfileFillerServlet extends HttpServlet {
 	    
         DatabaseConnection databaseConnection = new DatabaseConnection();
         
-        String errorMsg = null;
+        ErrorHandler errorHandler = new ErrorHandler();
         String login =  LoginServlet.getLoginNameFromCookies(request);
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -39,34 +41,22 @@ public class ProfileFillerServlet extends HttpServlet {
         String oldPassword = request.getParameter("oldPassword");
         String newPassword = request.getParameter("newPassword");
         
-        if (login != null &&  
-            ErrorMsgs.NO_ERROR == databaseConnection.usersTable.updateUserProfile(login, firstName, lastName, age, phoneNumber, city, preferedActivity))
+        if (login != null)
         {
-            System.out.println("User "+login+" has updated profile.");
+            errorHandler.addError(databaseConnection.usersTable.updateUserProfile(login, firstName, lastName, age, phoneNumber, city, preferedActivity));
         }
-        else
-        {
-            errorMsg = "Updating profile failed.";
-        }  
         
         //TODO fix it maybe create separate function high complexity
         if ( ! (oldPassword.isEmpty() || newPassword.isEmpty()))
         {
-            if (!RegisteredUser.validatePassword(newPassword))
-            {
-                errorMsg = "New password incorrect";
-            }            
-            
+            errorHandler.addErrors(ApplicationUtilities.validatePassword(newPassword));            
             if (true == databaseConnection.registeredUsersTable.getRegisteredUser(login).isPasswordCorrect(oldPassword))
             {
-                if (ErrorMsgs.NO_ERROR != databaseConnection.registeredUsersTable.updatePassword(login, newPassword))
-                {
-                    errorMsg = "New password updating failed.";   
-                }
+                errorHandler.addError(databaseConnection.registeredUsersTable.updatePassword(login, newPassword));
             }
             else
             {
-                errorMsg = "Old password incorrect.";      
+                errorHandler.addError(ErrorMsgs.EMAIL_INCORRECT);      
             }            
         }
         else
@@ -74,13 +64,13 @@ public class ProfileFillerServlet extends HttpServlet {
             System.out.println("User doesn't provide enough fields  in password form -> password not updated.");            
         }
         
-        if (null == errorMsg)
+        if (!errorHandler.hasErrorReported())
         {
             response.sendRedirect("home.jsp");
             return;
         }
         
-        request.setAttribute("errMessage", errorMsg);
+        request.setAttribute("errMessage", errorHandler.toHtml());
         System.out.println("User "+login+" has not updated profile.");
         request.getRequestDispatcher("profileForm.jsp").forward(request, response);
 	}

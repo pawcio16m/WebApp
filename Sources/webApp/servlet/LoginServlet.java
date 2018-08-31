@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import webApp.backend.ApplicationUtilities;
 import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
 
@@ -61,7 +62,7 @@ public class LoginServlet extends HttpServlet
 			session.setAttribute(SESSION_ATRIBUTE, login);
 			session.setMaxInactiveInterval(SESSION_DURATION);
 			
-			if (login.equals(RegisteredUser.adminLogin))
+			if (login.equals(ApplicationUtilities.ADMIN_LOGIN))
 			{
 				System.out.println("Hello admin, you have expended functionality on this site.");
 			}

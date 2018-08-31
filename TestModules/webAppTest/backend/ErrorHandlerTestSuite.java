@@ -1,6 +1,10 @@
 package webAppTest.backend;
 
 import static org.junit.Assert.*;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +33,19 @@ public class ErrorHandlerTestSuite
         sut.addError(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED);
         
         assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.getReportedErrors().get(0));
+    }
+    
+    @Test
+    public void testAddErrors()
+    {
+        List<ErrorMsgs> errors = new LinkedList<ErrorMsgs>();
+        errors.add(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED);
+        errors.add(ErrorMsgs.EMAIL_INCORRECT);
+        
+        sut.addErrors(errors);
+        
+        assertEquals(ErrorMsgs.DATABASE_TABLE_CREATION_FAILED, sut.getReportedErrors().get(0));        
+        assertEquals(ErrorMsgs.EMAIL_INCORRECT, sut.getReportedErrors().get(1));
     }
 
     @Test

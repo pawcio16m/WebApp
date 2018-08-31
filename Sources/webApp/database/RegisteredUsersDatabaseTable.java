@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
+import webApp.backend.ApplicationUtilities;
 import webApp.backend.ErrorMsgs;
 import webApp.backend.RegisteredUser;
 
@@ -18,7 +19,7 @@ public class RegisteredUsersDatabaseTable {
 		+ "password text NOT NULL)";
 	public final String deleteRegisteredUsersTable = "DROP TABLE "+tableName;
 	public final String selectAllRegisteredUsers = "SELECT * FROM "+tableName;
-    public final String removeAllRegisteredUser = "DELETE FROM "+tableName+" WHERE login != '"+RegisteredUser.adminLogin+"'";
+    public final String removeAllRegisteredUser = "DELETE FROM "+tableName+" WHERE login != '"+ApplicationUtilities.ADMIN_LOGIN+"'";
 	public final String tableHeader = "[UserId] | login | emailAddress |\n";
 	public final String tableHtmlHeader = "<div><table border=\"1\"><tr><th>UserId</th><th>login</th><th>email</th></tr>";
 	

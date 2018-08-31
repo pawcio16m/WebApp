@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import webApp.backend.ApplicationUtilities;
+import webApp.backend.ErrorHandler;
 import webApp.backend.ErrorMsgs;
 import webApp.backend.RegisteredUser;
 import webApp.database.DatabaseConnection;
@@ -32,38 +34,32 @@ public class RegistrationServlet extends HttpServlet
 	
 		DatabaseConnection databaseConnection = new DatabaseConnection();
 		
-		String errorMsg = "";
+		ErrorHandler errorHandler = new ErrorHandler();
+		
 		String login = request.getParameter("login");
 		String emailAddress = request.getParameter("email");
 		String password = request.getParameter("password").toString();
 		
 		System.out.println("User with login: "+login+" and email address: "+emailAddress);
 
-		if (!RegisteredUser.validatePassword(password))
-		{
-			errorMsg = "Password is incorrect"; 
-		}
+		errorHandler.addErrors(ApplicationUtilities.validatePassword(password));
+		errorHandler.addError(ApplicationUtilities.validateEmail(emailAddress));
+
 		
-		if (!RegisteredUser.validateEmail(emailAddress))
+		if (false == errorHandler.hasErrorReported())
 		{
-			errorMsg = "Email is incorrect";
-		}
-		
-		if (errorMsg.isEmpty())
-		{
-			if (ErrorMsgs.NO_ERROR == databaseConnection.registeredUsersTable.insertUser(login, emailAddress, password) &&
-			    ErrorMsgs.NO_ERROR == databaseConnection.usersTable.insertUser(login))
-			{
+		    errorHandler.addError(databaseConnection.registeredUsersTable.insertUser(login, emailAddress, password));
+		    errorHandler.addError(databaseConnection.usersTable.insertUser(login));
+			
+		    if (false == errorHandler.hasErrorReported())
+		    {
 				System.out.println("User: "+login+" added to database.");
 				response.sendRedirect("home.jsp");
 				return;
 			}
-			else 
-			{
-				errorMsg = "User with provided login or email already exist.";
-			}			
-		}		
-		request.setAttribute("errMessage", errorMsg);
+		}
+		System.err.println(errorHandler.toString());
+		request.setAttribute("errMessage", errorHandler.toHtml());
 		System.out.println("User: "+login+" not added to database.");
 		request.getRequestDispatcher("registration.jsp").forward(request, response);
 	}

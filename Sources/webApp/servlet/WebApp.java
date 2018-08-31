@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import webApp.backend.ApplicationConsts;
+import webApp.backend.ApplicationUtilities;
 import webApp.backend.ErrorMsgs;
 import webApp.database.DatabaseConnection;
 
@@ -64,8 +64,8 @@ public class WebApp extends HttpServlet {
 			}
 		}
 		else if (request.getParameter(FILL_PROFILE_PARAMETER) != null) {
-		    request.setAttribute("supportedCities", ApplicationConsts.SUPPORTED_CITIES);
-	        request.setAttribute("preferedActivities", ApplicationConsts.SUPPORTED_ACTIVITIES);
+		    request.setAttribute("supportedCities", ApplicationUtilities.SUPPORTED_CITIES);
+	        request.setAttribute("preferedActivities", ApplicationUtilities.SUPPORTED_ACTIVITIES);
 	            
 	        request.getRequestDispatcher("profileForm.jsp").forward(request, response);
 		}		
